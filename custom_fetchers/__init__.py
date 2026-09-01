@@ -1,27 +1,16 @@
 def fetch_custom(source):
     """
-    Route a custom job source to the appropriate fetcher.
+    Route custom job sources to their fetchers.
 
-    Each custom fetcher must return a list of dictionaries
-    using the normalized fields expected by monitor.py.
+    Normal ATS sources continue to use ats-scrapers.
+    Only sources with method="custom" arrive here.
     """
 
     fetcher = source["fetcher"]
 
 
     # ========================================================
-    # MCKINSEY
-    # ========================================================
-
-    if fetcher == "mckinsey":
-
-        from .mckinsey import fetch_mckinsey
-
-        return fetch_mckinsey(source)
-
-
-    # ========================================================
-    # BCG
+    # BOSTON CONSULTING GROUP
     # ========================================================
 
     if fetcher == "bcg":
@@ -32,21 +21,7 @@ def fetch_custom(source):
 
 
     # ========================================================
-    # AVATURE
-    #
-    # Currently used for Bain.
-    # Later it can support other Avature employers too.
-    # ========================================================
-
-    if fetcher == "avature":
-
-        from .avature import fetch_avature
-
-        return fetch_avature(source)
-
-
-    # ========================================================
-    # UNKNOWN FETCHER
+    # UNKNOWN CUSTOM SOURCE
     # ========================================================
 
     raise ValueError(
