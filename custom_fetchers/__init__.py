@@ -1,27 +1,28 @@
 def fetch_custom(source):
     """
-    Route custom job sources to their fetchers.
-
-    Normal ATS sources continue to use ats-scrapers.
-    Only sources with method="custom" arrive here.
+    Route custom sources to the correct fetcher.
     """
 
     fetcher = source["fetcher"]
 
 
     # ========================================================
-    # BOSTON CONSULTING GROUP
+    # EIGHTFOLD
     # ========================================================
 
-    if fetcher == "bcg":
+    if fetcher == "eightfold":
 
-        from .bcg import fetch_bcg
+        from .eightfold import (
+            fetch_eightfold
+        )
 
-        return fetch_bcg(source)
+        return fetch_eightfold(
+            source
+        )
 
 
     # ========================================================
-    # UNKNOWN CUSTOM SOURCE
+    # UNKNOWN
     # ========================================================
 
     raise ValueError(
