@@ -176,3 +176,13 @@ SOURCES = [
     },
 
 ]
+{
+    "name": "McKinsey & Company",
+    "category": "MBB",
+    "method": "ats",
+    "ats": "workday",
+    "target": (
+        "https://mckinsey.wd3.myworkdayjobs.com/"
+        "McKinsey_Externals"
+    ),
+},
