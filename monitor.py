@@ -331,10 +331,15 @@ MBB_PATTERNS = [
 
 def get_value(job, field):
     """
-    Safely obtain a value from an ats-scrapers Job object.
+    Works with both:
+    - ats-scrapers Job objects
+    - dictionaries returned by custom fetchers
     """
 
-    value = getattr(job, field, None)
+    if isinstance(job, dict):
+        value = job.get(field)
+    else:
+        value = getattr(job, field, None)
 
     if value is None:
         return ""
@@ -842,17 +847,18 @@ def collect_jobs():
             # CREATE SCRAPER
             # ------------------------------------------------
 
-            scraper = get_scraper(
-                source["ats"],
-                source["target"],
-            )
+            if source.get("method", "ats") == "custom":
 
+    jobs = fetch_custom(source)
 
-            # ------------------------------------------------
-            # FETCH ALL LIVE JOBS
-            # ------------------------------------------------
+else:
 
-            jobs = scraper.fetch()
+    scraper = get_scraper(
+        source["ats"],
+        source["target"],
+    )
+
+    jobs = scraper.fetch()
 
 
             print(
