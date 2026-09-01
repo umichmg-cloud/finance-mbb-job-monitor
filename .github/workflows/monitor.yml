@@ -1,0 +1,50 @@
+name: Finance & MBB Job Monitor
+
+on:
+
+  # Run automatically every 4 hours
+  schedule:
+    - cron: "17 */4 * * *"
+
+  # Also allow me to run it manually
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+
+jobs:
+
+  monitor:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Download repository
+        uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run job monitor
+        run: python monitor.py
+
+      - name: Save monitor state
+        run: |
+          git config user.name "finance-job-monitor"
+          git config user.email "finance-job-monitor@users.noreply.github.com"
+
+          git add data/
+
+          if git diff --cached --quiet; then
+            echo "No changes to save."
+          else
+            git commit -m "Update job monitor state"
+            git push
+          fi
