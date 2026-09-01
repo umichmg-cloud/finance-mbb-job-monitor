@@ -1,88 +1,178 @@
 SOURCES = [
 
     # ============================================================
-    # INVESTMENT BANKS / FINANCIAL INSTITUTIONS
+    # FINANCIAL INSTITUTIONS
     # ============================================================
+    #
+    # IMPORTANT:
+    #
+    # "target" does NOT always mean a simple company slug.
+    #
+    # Workday and Oracle require their COMPLETE careers URL.
+    # Other ATS platforms may use a normal company slug.
+    #
+    # We deliberately pin these ourselves instead of relying on
+    # fuzzy company-name discovery.
+    # ============================================================
+
+
+    # ------------------------------------------------------------
+    # GOLDMAN SACHS
+    # Oracle
+    # ------------------------------------------------------------
 
     {
         "name": "Goldman Sachs",
-        "method": "ats",
         "ats": "oracle",
-        "slug": "hdpc/cx_3001",
+        "target": (
+            "https://hdpc.fa.us2.oraclecloud.com/"
+            "hcmUI/CandidateExperience/en/sites/cx_3001"
+        ),
     },
+
+
+    # ------------------------------------------------------------
+    # JPMORGAN CHASE
+    # Oracle
+    # ------------------------------------------------------------
 
     {
         "name": "JPMorgan Chase",
-        "method": "ats",
         "ats": "oracle",
-        "slug": "jpmc",
+        "target": (
+            "https://jpmc.fa.oraclecloud.com/"
+            "hcmUI/CandidateExperience/en/sites/CX_1001"
+        ),
     },
+
+
+    # ------------------------------------------------------------
+    # MORGAN STANLEY
+    # Eightfold
+    #
+    # This already worked in our previous live test.
+    # ------------------------------------------------------------
 
     {
         "name": "Morgan Stanley",
-        "method": "ats",
         "ats": "eightfold",
-        "slug": "morganstanley",
+        "target": "morganstanley",
     },
+
+
+    # ------------------------------------------------------------
+    # CITI
+    #
+    # Eightfold partly worked but returned HTTP 405 after
+    # thousands of jobs.
+    #
+    # The company directory also identified this Workday tenant,
+    # so we test the Workday source instead.
+    # ------------------------------------------------------------
 
     {
         "name": "Citi",
-        "method": "ats",
-        "ats": "eightfold",
-        "slug": "citi",
+        "ats": "workday",
+        "target": (
+            "https://citi.wd5.myworkdayjobs.com/2"
+        ),
     },
+
+
+    # ------------------------------------------------------------
+    # HSBC
+    #
+    # Eightfold returned HTTP 405 immediately.
+    #
+    # The company directory also identified HSBC's legacy
+    # SuccessFactors careers system, so we use that instead.
+    # ------------------------------------------------------------
 
     {
         "name": "HSBC",
-        "method": "ats",
-        "ats": "eightfold",
-        "slug": "hsbc",
+        "ats": "successfactors",
+        "target": (
+            "https://career2.successfactors.eu/"
+            "career?company=hsbcholdin"
+        ),
     },
+
+
+    # ------------------------------------------------------------
+    # BARCLAYS
+    # Workday
+    # ------------------------------------------------------------
 
     {
         "name": "Barclays",
-        "method": "ats",
         "ats": "workday",
-        "slug": "barclays/external_career_site_barclays",
+        "target": (
+            "https://barclays.wd3.myworkdayjobs.com/"
+            "external_career_site_barclays"
+        ),
     },
 
-    {
-        "name": "Deutsche Bank",
-        "method": "ats",
-        "ats": "smartrecruiters",
-        "slug": "deutschebank",
-    },
+
+    # ------------------------------------------------------------
+    # JEFFERIES
+    # Oracle
+    # ------------------------------------------------------------
 
     {
         "name": "Jefferies",
-        "method": "ats",
         "ats": "oracle",
-        "slug": "hdid",
+        "target": (
+            "https://hdid.fa.us2.oraclecloud.com/"
+            "hcmUI/CandidateExperience/en/sites/CX_1"
+        ),
     },
+
+
+    # ------------------------------------------------------------
+    # SANTANDER
+    # Workday
+    # ------------------------------------------------------------
 
     {
         "name": "Santander",
-        "method": "ats",
         "ats": "workday",
-        "slug": "santander/santandercareers",
+        "target": (
+            "https://santander.wd3.myworkdayjobs.com/"
+            "santandercareers"
+        ),
     },
+
+
+    # ------------------------------------------------------------
+    # BLACKROCK
+    # Workday
+    # ------------------------------------------------------------
 
     {
         "name": "BlackRock",
-        "method": "ats",
         "ats": "workday",
-        "slug": "blackrock/blackrock_professional",
+        "target": (
+            "https://blackrock.wd1.myworkdayjobs.com/"
+            "blackrock_professional"
+        ),
     },
 
-    # Lazard was not found by company-name search,
-    # but Lazard's own website links directly to this Oracle careers site.
+
+    # ------------------------------------------------------------
+    # LAZARD STUDENT CAREERS
+    #
+    # We already know the platform is Oracle.
+    # Therefore we bypass automatic URL detection entirely.
+    # ------------------------------------------------------------
+
     {
         "name": "Lazard",
-        "method": "url",
-        "url": (
+        "ats": "oracle",
+        "target": (
             "https://icbpjb.fa.ocs.oraclecloud.com/"
             "hcmUI/CandidateExperience/en/sites/"
             "LazardStudentCareers/jobs"
         ),
     },
+
 ]
