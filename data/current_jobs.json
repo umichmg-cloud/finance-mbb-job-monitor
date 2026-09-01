@@ -48,6 +48,42 @@
     "url": "https://barclays.wd3.myworkdayjobs.com/external_career_site_barclays/job/Hong-Kong-Cheung-Kong-Center/Sales--Trading-and-Structuring-Summer-Internship-Programme-2027-Hong-Kong_JR-0000117559"
   },
   {
+    "id": "eightfold:Boston Consulting Group:790317085918",
+    "company": "Boston Consulting Group",
+    "category": "MBB",
+    "title": "Consultant, Full-Time, Advanced Degree, US Campus, Greater China",
+    "location": "Greater China | Beijing, Greater China | Shanghai, Greater China | Shenzhen, Greater China | Hong Kong, Greater China | Taipei, Greater China",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-07-13 05:27:00",
+    "department": "BCG",
+    "team": "",
+    "url": "https://studenttalent.bcg.com/careers/job/790317085918"
+  },
+  {
+    "id": "eightfold:Boston Consulting Group:790317111179",
+    "company": "Boston Consulting Group",
+    "category": "MBB",
+    "title": "Consulting Full-time, Europe Campus, Greater China",
+    "location": "Shanghai, Greater China | Beijing, Greater China | Shenzhen, Greater China | Hong Kong, Greater China | Taipei, Greater China",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-07-14 02:59:00",
+    "department": "BCG",
+    "team": "",
+    "url": "https://studenttalent.bcg.com/careers/job/790317111179"
+  },
+  {
+    "id": "eightfold:Boston Consulting Group:790315963831",
+    "company": "Boston Consulting Group",
+    "category": "MBB",
+    "title": "Forward Deployed AI Scientist, Internship, Greater China - BCG X",
+    "location": "Shanghai, Greater China | Hong Kong, Greater China | Taipei, Greater China | Shenzhen, Guangdong Province, China",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-05-19 08:49:00",
+    "department": "BCG X",
+    "team": "",
+    "url": "https://studenttalent.bcg.com/careers/job/790315963831"
+  },
+  {
     "id": "workday:26984751",
     "company": "Citi",
     "category": "FINANCE",
@@ -586,6 +622,18 @@
     "department": "",
     "team": "Analysts",
     "url": "https://jpmc.fa.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=CX_1001#210771829"
+  },
+  {
+    "id": "eightfold:JR042233",
+    "company": "Morgan Stanley",
+    "category": "FINANCE",
+    "title": "Asia Wealth Management, Fixed Income Discretionary Portfolio Management, Assistant Portfolio Manager, Analyst, Hong Kong",
+    "location": "HK",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-08-13 00:00:00",
+    "department": "Portfolio Management",
+    "team": "",
+    "url": "https://morganstanley.eightfold.ai/careers/job/549799599756"
   },
   {
     "id": "eightfold:JR042741",
