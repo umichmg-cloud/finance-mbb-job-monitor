@@ -1,206 +1,35 @@
-SOURCES = [
-
     # ============================================================
-    # FINANCE — ATS-SCRAPERS
-    # ============================================================
-
-
-    # ------------------------------------------------------------
-    # GOLDMAN SACHS
-    # ------------------------------------------------------------
-
-    {
-        "name": "Goldman Sachs",
-        "category": "FINANCE",
-        "method": "ats",
-        "ats": "oracle",
-        "target": (
-            "https://hdpc.fa.us2.oraclecloud.com/"
-            "hcmUI/CandidateExperience/en/sites/cx_3001"
-        ),
-    },
-
-
-    # ------------------------------------------------------------
-    # JPMORGAN CHASE
-    # ------------------------------------------------------------
-
-    {
-        "name": "JPMorgan Chase",
-        "category": "FINANCE",
-        "method": "ats",
-        "ats": "oracle",
-        "target": (
-            "https://jpmc.fa.oraclecloud.com/"
-            "hcmUI/CandidateExperience/en/sites/CX_1001"
-        ),
-    },
-
-
-    # ------------------------------------------------------------
-    # MORGAN STANLEY
-    # ------------------------------------------------------------
-
-    {
-        "name": "Morgan Stanley",
-        "category": "FINANCE",
-        "method": "ats",
-        "ats": "eightfold",
-        "target": "morganstanley",
-    },
-
-
-    # ------------------------------------------------------------
-    # CITI
-    # ------------------------------------------------------------
-
-    {
-        "name": "Citi",
-        "category": "FINANCE",
-        "method": "ats",
-        "ats": "workday",
-        "target": (
-            "https://citi.wd5.myworkdayjobs.com/2"
-        ),
-    },
-
-
-    # ------------------------------------------------------------
-    # HSBC
-    #
-    # This source currently fails.
-    # We keep it here temporarily and will replace it with
-    # a custom Eightfold fetcher later.
-    # ------------------------------------------------------------
-
-    {
-        "name": "HSBC",
-        "category": "FINANCE",
-        "method": "ats",
-        "ats": "successfactors",
-        "target": (
-            "https://career2.successfactors.eu/"
-            "career?company=hsbcholdin"
-        ),
-    },
-
-
-    # ------------------------------------------------------------
-    # BARCLAYS
-    # ------------------------------------------------------------
-
-    {
-        "name": "Barclays",
-        "category": "FINANCE",
-        "method": "ats",
-        "ats": "workday",
-        "target": (
-            "https://barclays.wd3.myworkdayjobs.com/"
-            "external_career_site_barclays"
-        ),
-    },
-
-
-    # ------------------------------------------------------------
-    # JEFFERIES
-    # ------------------------------------------------------------
-
-    {
-        "name": "Jefferies",
-        "category": "FINANCE",
-        "method": "ats",
-        "ats": "oracle",
-        "target": (
-            "https://hdid.fa.us2.oraclecloud.com/"
-            "hcmUI/CandidateExperience/en/sites/CX_1"
-        ),
-    },
-
-
-    # ------------------------------------------------------------
-    # SANTANDER
-    # ------------------------------------------------------------
-
-    {
-        "name": "Santander",
-        "category": "FINANCE",
-        "method": "ats",
-        "ats": "workday",
-        "target": (
-            "https://santander.wd3.myworkdayjobs.com/"
-            "santandercareers"
-        ),
-    },
-
-
-    # ------------------------------------------------------------
-    # BLACKROCK
-    # ------------------------------------------------------------
-
-    {
-        "name": "BlackRock",
-        "category": "FINANCE",
-        "method": "ats",
-        "ats": "workday",
-        "target": (
-            "https://blackrock.wd1.myworkdayjobs.com/"
-            "blackrock_professional"
-        ),
-    },
-
-
-    # ------------------------------------------------------------
-    # LAZARD
-    # ------------------------------------------------------------
-
-    {
-        "name": "Lazard",
-        "category": "FINANCE",
-        "method": "ats",
-        "ats": "oracle",
-        "target": (
-            "https://icbpjb.fa.ocs.oraclecloud.com/"
-            "hcmUI/CandidateExperience/en/sites/"
-            "LazardStudentCareers/jobs"
-        ),
-    },
-
-
-    # ============================================================
-    # MBB — CUSTOM FETCHERS
-    # ============================================================
-    #
-    # These do NOT go through ats-scrapers.
-    #
-    # We will create:
-    #
-    # custom_fetchers/mckinsey.py
-    # custom_fetchers/bcg.py
-    # custom_fetchers/avature.py
-    #
+    # MBB
     # ============================================================
 
 
     # ------------------------------------------------------------
     # MCKINSEY & COMPANY
+    #
+    # Verified current GitHub implementation:
+    # Workday
+    # tenant: mckinsey
+    # server: wd1
+    # site: McKinsey_Careers
     # ------------------------------------------------------------
 
     {
-    "name": "McKinsey & Company",
-    "category": "MBB",
-    "method": "ats",
-    "ats": "workday",
-    "target": (
-        "https://mckinsey.wd1.myworkdayjobs.com/"
-        "McKinsey_Careers"
-    ),
-},
+        "name": "McKinsey & Company",
+        "category": "MBB",
+        "method": "ats",
+        "ats": "workday",
+        "target": (
+            "https://mckinsey.wd1.myworkdayjobs.com/"
+            "McKinsey_Careers"
+        ),
+    },
 
 
     # ------------------------------------------------------------
     # BOSTON CONSULTING GROUP
     #
-    # BCG uses Phenom.
+    # Current working GitHub implementation uses
+    # BCG's public Eightfold API.
     # ------------------------------------------------------------
 
     {
@@ -210,24 +39,31 @@ SOURCES = [
         "fetcher": "bcg",
         "target": (
             "https://careers.bcg.com/"
-            "global/en/search-results"
+            "api/apply/v2/jobs"
         ),
+        "domain": "bcg.com",
+        "max_pages": 150,
     },
 
 
     # ------------------------------------------------------------
     # BAIN & COMPANY
     #
-    # Bain uses Avature.
+    # Verified current GitHub implementation:
+    # Workday
+    # tenant: bain
+    # server: wd1
+    # site: External_Career_Site
     # ------------------------------------------------------------
 
     {
         "name": "Bain & Company",
         "category": "MBB",
-        "method": "custom",
-        "fetcher": "avature",
+        "method": "ats",
+        "ats": "workday",
         "target": (
-            "https://bain.avature.net"
+            "https://bain.wd1.myworkdayjobs.com/"
+            "External_Career_Site"
         ),
     },
 
