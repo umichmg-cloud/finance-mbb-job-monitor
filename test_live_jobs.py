@@ -1,34 +1,47 @@
-from ats_scrapers import get_scraper_for_url
 from ats_scrapers.scrapers import get_scraper
 
 from sources import SOURCES
 
 
 # ============================================================
-# TARGET LOCATIONS
+# LOCATION MATCHING
+# ============================================================
+#
+# IMPORTANT:
+#
+# We ONLY use the structured location field here.
+#
+# Previously we searched the description as well.
+# That caused false positives:
+#
+# New York jobs were being classified as Hong Kong jobs
+# simply because their description happened to mention HK.
+#
 # ============================================================
 
-TARGET_LOCATIONS = [
-    # Hong Kong
+
+HONG_KONG_TERMS = [
     "hong kong",
     "hongkong",
     "hong kong sar",
     "hong kong s.a.r",
-    "hksar",
+]
 
-    # Mexico City
+
+MEXICO_CITY_TERMS = [
     "mexico city",
     "ciudad de mexico",
     "ciudad de méxico",
     "cdmx",
     "mexico d.f",
     "mexico, df",
+    "mexico city, mexico",
 ]
 
 
 def get_value(job, field):
     """
-    Safely retrieve a field from the Job object.
+    Safely retrieve a value from an ats-scrapers Job object.
     """
 
     value = getattr(job, field, None)
@@ -36,62 +49,78 @@ def get_value(job, field):
     if value is None:
         return ""
 
-    return str(value)
+    return str(value).strip()
 
 
-def is_target_location(job):
+def classify_location(job):
     """
-    Check both location and description.
+    Return:
+        "Hong Kong"
+        "Mexico City"
+        None
 
-    We check description too because graduate programs
-    sometimes list several eligible cities in the job text
-    while the ATS only gives one primary location.
+    We intentionally examine ONLY job.location.
     """
 
-    location = get_value(job, "location")
-    description = get_value(job, "description")
+    location = get_value(
+        job,
+        "location",
+    ).lower().strip()
 
-    searchable_text = (
-        location + " " + description[:8000]
-    ).lower()
+    # --------------------------------------------------------
+    # HONG KONG
+    # --------------------------------------------------------
 
-    return any(
-        term.lower() in searchable_text
-        for term in TARGET_LOCATIONS
-    )
+    # Morgan Stanley, for example, often simply returns "HK".
+    if location == "hk":
+        return "Hong Kong"
+
+    if any(
+        term in location
+        for term in HONG_KONG_TERMS
+    ):
+        return "Hong Kong"
+
+    # --------------------------------------------------------
+    # MEXICO CITY
+    # --------------------------------------------------------
+
+    if any(
+        term in location
+        for term in MEXICO_CITY_TERMS
+    ):
+        return "Mexico City"
+
+    return None
+
+
+# ============================================================
+# SCRAPER CREATION
+# ============================================================
 
 
 def create_scraper(source):
     """
-    Create the correct ats-scrapers scraper.
-
-    Some companies are identified directly by ATS + slug.
-    Others are resolved using their official careers URL.
+    Create the appropriate scraper from our manually
+    verified ATS + target pair.
     """
 
-    if source["method"] == "ats":
-
-        return get_scraper(
-            source["ats"],
-            source["slug"],
-        )
-
-    if source["method"] == "url":
-
-        return get_scraper_for_url(
-            source["url"]
-        )
-
-    raise ValueError(
-        f"Unknown source method: {source['method']}"
+    return get_scraper(
+        source["ats"],
+        source["target"],
     )
 
 
+# ============================================================
+# TEST
+# ============================================================
+
+
 print()
-print("=" * 90)
-print("LIVE JOB SOURCE TEST")
-print("TARGET: HONG KONG + MEXICO CITY")
-print("=" * 90)
+print("=" * 100)
+print("LIVE FINANCE JOB SOURCE TEST")
+print("LOCATIONS: HONG KONG + MEXICO CITY")
+print("=" * 100)
 
 
 summary = []
@@ -103,106 +132,208 @@ for source in SOURCES:
 
     print()
     print()
-    print("=" * 90)
+    print("=" * 100)
     print(f"TESTING: {company}")
-    print("=" * 90)
+    print(f"ATS: {source['ats']}")
+    print("=" * 100)
 
     try:
 
-        # --------------------------------------------------------
+        # ----------------------------------------------------
         # CREATE SCRAPER
-        # --------------------------------------------------------
+        # ----------------------------------------------------
 
         scraper = create_scraper(source)
 
         print("✅ Scraper created")
 
-        # --------------------------------------------------------
-        # FETCH LIVE JOBS
-        # --------------------------------------------------------
+
+        # ----------------------------------------------------
+        # FETCH JOBS
+        # ----------------------------------------------------
 
         jobs = scraper.fetch()
 
+        total_jobs = len(jobs)
+
         print(
-            f"✅ Retrieved {len(jobs)} total live jobs"
+            f"✅ Retrieved {total_jobs} total live jobs"
         )
 
-        # --------------------------------------------------------
-        # FIND HK / CDMX JOBS
-        # --------------------------------------------------------
 
-        target_jobs = [
-            job
-            for job in jobs
-            if is_target_location(job)
-        ]
+        # ----------------------------------------------------
+        # ZERO JOBS IS SUSPICIOUS
+        # ----------------------------------------------------
+
+        if total_jobs == 0:
+
+            print()
+            print(
+                "⚠️ WARNING: scraper returned ZERO jobs."
+            )
+
+            print(
+                "We will treat this source as unresolved "
+                "rather than assuming the company has no jobs."
+            )
+
+            summary.append(
+                (
+                    company,
+                    "EMPTY",
+                    0,
+                    0,
+                    0,
+                )
+            )
+
+            continue
+
+
+        # ----------------------------------------------------
+        # LOCATION FILTER
+        # ----------------------------------------------------
+
+        hong_kong_jobs = []
+        mexico_city_jobs = []
+
+
+        for job in jobs:
+
+            location_group = classify_location(job)
+
+            if location_group == "Hong Kong":
+
+                hong_kong_jobs.append(job)
+
+            elif location_group == "Mexico City":
+
+                mexico_city_jobs.append(job)
+
+
+        target_jobs = (
+            hong_kong_jobs
+            +
+            mexico_city_jobs
+        )
+
+
+        print()
+        print(
+            f"🇭🇰 Hong Kong jobs: "
+            f"{len(hong_kong_jobs)}"
+        )
 
         print(
-            f"📍 Hong Kong / Mexico City matches: "
+            f"🇲🇽 Mexico City jobs: "
+            f"{len(mexico_city_jobs)}"
+        )
+
+        print(
+            f"📍 Total target-location jobs: "
             f"{len(target_jobs)}"
         )
+
 
         summary.append(
             (
                 company,
                 "OK",
-                len(jobs),
-                len(target_jobs),
+                total_jobs,
+                len(hong_kong_jobs),
+                len(mexico_city_jobs),
             )
         )
 
-        # --------------------------------------------------------
-        # SHOW UP TO 15 MATCHES
-        # --------------------------------------------------------
+
+        # ----------------------------------------------------
+        # DISPLAY TARGET JOBS
+        # ----------------------------------------------------
 
         if target_jobs:
 
             print()
-            print("MATCHING JOBS:")
-            print("-" * 90)
+            print("TARGET-LOCATION JOBS:")
+            print("-" * 100)
+
 
             for number, job in enumerate(
-                target_jobs[:15],
+                target_jobs[:25],
                 start=1,
             ):
 
-                title = get_value(job, "title")
-                location = get_value(job, "location")
-                posted = get_value(job, "posted_at")
+                title = get_value(
+                    job,
+                    "title",
+                )
 
-                apply_url = (
-                    get_value(job, "apply_url")
-                    or get_value(job, "url")
+                location = get_value(
+                    job,
+                    "location",
+                )
+
+                posted = get_value(
+                    job,
+                    "posted_at",
+                )
+
+                url = (
+                    get_value(
+                        job,
+                        "apply_url",
+                    )
+                    or
+                    get_value(
+                        job,
+                        "url",
+                    )
                 )
 
                 print()
-                print(f"{number}. {title}")
-                print(f"   Location: {location}")
+                print(
+                    f"{number}. {title}"
+                )
+
+                print(
+                    f"   Location: {location}"
+                )
 
                 if posted:
-                    print(f"   Posted: {posted}")
 
-                print(f"   URL: {apply_url}")
+                    print(
+                        f"   Posted: {posted}"
+                    )
+
+                print(
+                    f"   URL: {url}"
+                )
+
 
         else:
 
+            print()
             print(
-                "ℹ️ Source works, but no HK/CDMX "
-                "roles were detected."
+                "ℹ️ The scraper works, but it returned "
+                "no jobs whose structured location is "
+                "Hong Kong or Mexico City."
             )
+
 
     except Exception as error:
 
         print()
         print("❌ SOURCE FAILED")
+
         print(
-            f"{type(error).__name__}: {error}"
+            f"{type(error).__name__}: "
+            f"{error}"
         )
 
         summary.append(
             (
                 company,
                 "FAILED",
+                0,
                 0,
                 0,
             )
@@ -213,24 +344,43 @@ for source in SOURCES:
 # FINAL SUMMARY
 # ============================================================
 
+
 print()
 print()
-print("=" * 90)
+print("=" * 100)
 print("FINAL SUMMARY")
-print("=" * 90)
+print("=" * 100)
 
-for company, status, total, target in summary:
 
-    symbol = "✅" if status == "OK" else "❌"
+for (
+    company,
+    status,
+    total,
+    hk,
+    mexico,
+) in summary:
+
+    if status == "OK":
+        symbol = "✅"
+
+    elif status == "EMPTY":
+        symbol = "⚠️"
+
+    else:
+        symbol = "❌"
+
 
     print(
         f"{symbol} "
-        f"{company:<25} "
+        f"{company:<23} "
         f"total={total:<6} "
-        f"HK/CDMX={target}"
+        f"HK={hk:<4} "
+        f"CDMX={mexico:<4} "
+        f"status={status}"
     )
 
+
 print()
-print("=" * 90)
+print("=" * 100)
 print("TEST FINISHED")
-print("=" * 90)
+print("=" * 100)
