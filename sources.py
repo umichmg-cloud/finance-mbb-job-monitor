@@ -186,15 +186,15 @@ SOURCES = [
     # ------------------------------------------------------------
 
     {
-        "name": "McKinsey & Company",
-        "category": "MBB",
-        "method": "custom",
-        "fetcher": "mckinsey",
-        "target": (
-            "https://www.mckinsey.com/"
-            "careers/search-jobs"
-        ),
-    },
+    "name": "McKinsey & Company",
+    "category": "MBB",
+    "method": "ats",
+    "ats": "workday",
+    "target": (
+        "https://mckinsey.wd1.myworkdayjobs.com/"
+        "McKinsey_Careers"
+    ),
+},
 
 
     # ------------------------------------------------------------
