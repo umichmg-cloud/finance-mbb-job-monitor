@@ -1,28 +1,18 @@
 SOURCES = [
 
     # ============================================================
-    # FINANCIAL INSTITUTIONS
-    # ============================================================
-    #
-    # IMPORTANT:
-    #
-    # "target" does NOT always mean a simple company slug.
-    #
-    # Workday and Oracle require their COMPLETE careers URL.
-    # Other ATS platforms may use a normal company slug.
-    #
-    # We deliberately pin these ourselves instead of relying on
-    # fuzzy company-name discovery.
+    # FINANCE — ATS-SCRAPERS
     # ============================================================
 
 
     # ------------------------------------------------------------
     # GOLDMAN SACHS
-    # Oracle
     # ------------------------------------------------------------
 
     {
         "name": "Goldman Sachs",
+        "category": "FINANCE",
+        "method": "ats",
         "ats": "oracle",
         "target": (
             "https://hdpc.fa.us2.oraclecloud.com/"
@@ -33,11 +23,12 @@ SOURCES = [
 
     # ------------------------------------------------------------
     # JPMORGAN CHASE
-    # Oracle
     # ------------------------------------------------------------
 
     {
         "name": "JPMorgan Chase",
+        "category": "FINANCE",
+        "method": "ats",
         "ats": "oracle",
         "target": (
             "https://jpmc.fa.oraclecloud.com/"
@@ -48,13 +39,12 @@ SOURCES = [
 
     # ------------------------------------------------------------
     # MORGAN STANLEY
-    # Eightfold
-    #
-    # This already worked in our previous live test.
     # ------------------------------------------------------------
 
     {
         "name": "Morgan Stanley",
+        "category": "FINANCE",
+        "method": "ats",
         "ats": "eightfold",
         "target": "morganstanley",
     },
@@ -62,16 +52,12 @@ SOURCES = [
 
     # ------------------------------------------------------------
     # CITI
-    #
-    # Eightfold partly worked but returned HTTP 405 after
-    # thousands of jobs.
-    #
-    # The company directory also identified this Workday tenant,
-    # so we test the Workday source instead.
     # ------------------------------------------------------------
 
     {
         "name": "Citi",
+        "category": "FINANCE",
+        "method": "ats",
         "ats": "workday",
         "target": (
             "https://citi.wd5.myworkdayjobs.com/2"
@@ -82,14 +68,15 @@ SOURCES = [
     # ------------------------------------------------------------
     # HSBC
     #
-    # Eightfold returned HTTP 405 immediately.
-    #
-    # The company directory also identified HSBC's legacy
-    # SuccessFactors careers system, so we use that instead.
+    # This source currently fails.
+    # We keep it here temporarily and will replace it with
+    # a custom Eightfold fetcher later.
     # ------------------------------------------------------------
 
     {
         "name": "HSBC",
+        "category": "FINANCE",
+        "method": "ats",
         "ats": "successfactors",
         "target": (
             "https://career2.successfactors.eu/"
@@ -100,11 +87,12 @@ SOURCES = [
 
     # ------------------------------------------------------------
     # BARCLAYS
-    # Workday
     # ------------------------------------------------------------
 
     {
         "name": "Barclays",
+        "category": "FINANCE",
+        "method": "ats",
         "ats": "workday",
         "target": (
             "https://barclays.wd3.myworkdayjobs.com/"
@@ -115,11 +103,12 @@ SOURCES = [
 
     # ------------------------------------------------------------
     # JEFFERIES
-    # Oracle
     # ------------------------------------------------------------
 
     {
         "name": "Jefferies",
+        "category": "FINANCE",
+        "method": "ats",
         "ats": "oracle",
         "target": (
             "https://hdid.fa.us2.oraclecloud.com/"
@@ -130,11 +119,12 @@ SOURCES = [
 
     # ------------------------------------------------------------
     # SANTANDER
-    # Workday
     # ------------------------------------------------------------
 
     {
         "name": "Santander",
+        "category": "FINANCE",
+        "method": "ats",
         "ats": "workday",
         "target": (
             "https://santander.wd3.myworkdayjobs.com/"
@@ -145,11 +135,12 @@ SOURCES = [
 
     # ------------------------------------------------------------
     # BLACKROCK
-    # Workday
     # ------------------------------------------------------------
 
     {
         "name": "BlackRock",
+        "category": "FINANCE",
+        "method": "ats",
         "ats": "workday",
         "target": (
             "https://blackrock.wd1.myworkdayjobs.com/"
@@ -159,14 +150,13 @@ SOURCES = [
 
 
     # ------------------------------------------------------------
-    # LAZARD STUDENT CAREERS
-    #
-    # We already know the platform is Oracle.
-    # Therefore we bypass automatic URL detection entirely.
+    # LAZARD
     # ------------------------------------------------------------
 
     {
         "name": "Lazard",
+        "category": "FINANCE",
+        "method": "ats",
         "ats": "oracle",
         "target": (
             "https://icbpjb.fa.ocs.oraclecloud.com/"
@@ -175,14 +165,70 @@ SOURCES = [
         ),
     },
 
+
+    # ============================================================
+    # MBB — CUSTOM FETCHERS
+    # ============================================================
+    #
+    # These do NOT go through ats-scrapers.
+    #
+    # We will create:
+    #
+    # custom_fetchers/mckinsey.py
+    # custom_fetchers/bcg.py
+    # custom_fetchers/avature.py
+    #
+    # ============================================================
+
+
+    # ------------------------------------------------------------
+    # MCKINSEY & COMPANY
+    # ------------------------------------------------------------
+
+    {
+        "name": "McKinsey & Company",
+        "category": "MBB",
+        "method": "custom",
+        "fetcher": "mckinsey",
+        "target": (
+            "https://www.mckinsey.com/"
+            "careers/search-jobs"
+        ),
+    },
+
+
+    # ------------------------------------------------------------
+    # BOSTON CONSULTING GROUP
+    #
+    # BCG uses Phenom.
+    # ------------------------------------------------------------
+
+    {
+        "name": "Boston Consulting Group",
+        "category": "MBB",
+        "method": "custom",
+        "fetcher": "bcg",
+        "target": (
+            "https://careers.bcg.com/"
+            "global/en/search-results"
+        ),
+    },
+
+
+    # ------------------------------------------------------------
+    # BAIN & COMPANY
+    #
+    # Bain uses Avature.
+    # ------------------------------------------------------------
+
+    {
+        "name": "Bain & Company",
+        "category": "MBB",
+        "method": "custom",
+        "fetcher": "avature",
+        "target": (
+            "https://bain.avature.net"
+        ),
+    },
+
 ]
-{
-    "name": "McKinsey & Company",
-    "category": "MBB",
-    "method": "ats",
-    "ats": "workday",
-    "target": (
-        "https://mckinsey.wd3.myworkdayjobs.com/"
-        "McKinsey_Externals"
-    ),
-},
