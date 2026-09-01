@@ -187,11 +187,11 @@ SOURCES = [
     {
         "name": "McKinsey & Company",
         "category": "MBB",
-        "method": "ats",
-        "ats": "workday",
+        "method": "custom",
+        "fetcher": "mckinsey",
         "target": (
-            "https://mckinsey.wd1.myworkdayjobs.com/"
-            "McKinsey_Careers"
+            "https://www.mckinsey.com/"
+            "careers/search-jobs"
         ),
     },
 
@@ -222,12 +222,18 @@ SOURCES = [
     {
         "name": "Bain & Company",
         "category": "MBB",
-        "method": "ats",
-        "ats": "workday",
+        "method": "custom",
+        "fetcher": "avature",
         "target": (
-            "https://bain.wd1.myworkdayjobs.com/"
-            "External_Career_Site"
+            "https://careers.bain.com"
         ),
+        "avature_origin": (
+            "https://bain.avature.net"
+        ),
+        "role_terms": [
+            "associate consultant",
+        ],
+        "max_pages": 120,
     },
 
 ]
