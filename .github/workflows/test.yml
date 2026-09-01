@@ -22,5 +22,5 @@ jobs:
       - name: Install Python packages
         run: pip install -r requirements.txt
 
-      - name: Test companies
-        run: python test_companies.py
+      - name: Test live job sources
+        run: python test_live_jobs.py
