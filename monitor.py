@@ -849,16 +849,16 @@ def collect_jobs():
 
             if source.get("method", "ats") == "custom":
 
-    jobs = fetch_custom(source)
+                jobs = fetch_custom(source)
 
-else:
+            else:
 
-    scraper = get_scraper(
-        source["ats"],
-        source["target"],
-    )
+                scraper = get_scraper(
+                    source["ats"],
+                    source["target"],
+                )
 
-    jobs = scraper.fetch()
+                jobs = scraper.fetch()
 
 
             print(
