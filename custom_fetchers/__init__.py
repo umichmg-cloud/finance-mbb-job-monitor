@@ -1,6 +1,6 @@
 def fetch_custom(source):
     """
-    Route custom sources to the correct fetcher.
+    Route custom job sources to the correct fetcher.
     """
 
     fetcher = source["fetcher"]
@@ -8,6 +8,9 @@ def fetch_custom(source):
 
     # ========================================================
     # EIGHTFOLD
+    #
+    # HSBC
+    # BCG
     # ========================================================
 
     if fetcher == "eightfold":
@@ -22,9 +25,42 @@ def fetch_custom(source):
 
 
     # ========================================================
+    # MCKINSEY
+    # ========================================================
+
+    if fetcher == "mckinsey":
+
+        from .mckinsey import (
+            fetch_mckinsey
+        )
+
+        return fetch_mckinsey(
+            source
+        )
+
+
+    # ========================================================
+    # AVATURE
+    #
+    # Bain
+    # ========================================================
+
+    if fetcher == "avature":
+
+        from .avature import (
+            fetch_avature
+        )
+
+        return fetch_avature(
+            source
+        )
+
+
+    # ========================================================
     # UNKNOWN
     # ========================================================
 
     raise ValueError(
-        f"Unknown custom fetcher: {fetcher}"
+        f"Unknown custom fetcher: "
+        f"{fetcher}"
     )
