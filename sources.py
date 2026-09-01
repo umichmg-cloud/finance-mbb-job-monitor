@@ -205,13 +205,12 @@ SOURCES = [
         "name": "Boston Consulting Group",
         "category": "MBB",
         "method": "custom",
-        "fetcher": "bcg",
+        "fetcher": "eightfold",
         "target": (
-            "https://careers.bcg.com/"
-            "api/apply/v2/jobs"
+            "https://bcg.eightfold.ai"
         ),
         "domain": "bcg.com",
-        "max_pages": 150,
+        "max_pages": 200,
     },
 
 
