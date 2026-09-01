@@ -1,5 +1,6 @@
 import hashlib
 import json
+import re
 from pathlib import Path
 
 from ats_scrapers.scrapers import get_scraper
@@ -47,15 +48,22 @@ MEXICO_CITY_TERMS = [
 
 FINANCE_TERMS = [
 
-    # Investment Banking
+    # --------------------------------------------------------
+    # INVESTMENT BANKING
+    # --------------------------------------------------------
+
     "investment banking",
     "investment bank",
+    "global investment banking",
     "m&a",
     "mergers and acquisitions",
     "mergers & acquisitions",
-    "advisory",
+    "financial advisory",
 
-    # Capital Markets
+    # --------------------------------------------------------
+    # CAPITAL MARKETS
+    # --------------------------------------------------------
+
     "capital markets",
     "debt capital markets",
     "equity capital markets",
@@ -63,8 +71,12 @@ FINANCE_TERMS = [
     "ecm",
     "leveraged finance",
 
-    # Markets
+    # --------------------------------------------------------
+    # MARKETS
+    # --------------------------------------------------------
+
     "global markets",
+    "markets analyst",
     "sales and trading",
     "sales & trading",
     "sales, trading",
@@ -80,14 +92,20 @@ FINANCE_TERMS = [
     "fx",
     "equities",
 
-    # Research
+    # --------------------------------------------------------
+    # RESEARCH
+    # --------------------------------------------------------
+
     "equity research",
     "global investment research",
     "global research",
     "investment research",
     "credit research",
 
-    # Asset / Wealth Management
+    # --------------------------------------------------------
+    # ASSET MANAGEMENT / WEALTH
+    # --------------------------------------------------------
+
     "asset management",
     "investment management",
     "wealth management",
@@ -95,91 +113,181 @@ FINANCE_TERMS = [
     "private bank",
     "private banking",
     "private investing",
+    "portfolio management",
 
-    # Corporate Banking
+    # --------------------------------------------------------
+    # CORPORATE BANKING / COVERAGE
+    # --------------------------------------------------------
+
     "corporate banking",
     "global banking",
+    "global corporate banking",
     "commercial & investment bank",
     "commercial and investment bank",
     "corporate & investment banking",
     "corporate and investment banking",
-    "global corporate banking",
     "coverage",
+    "subsidiary banking",
 
-    # Credit
+    # --------------------------------------------------------
+    # CREDIT / INVESTMENT RISK
+    # --------------------------------------------------------
+
     "credit risk",
     "credit analyst",
+    "investment risk",
+
+    # --------------------------------------------------------
+    # OTHER RELEVANT FRONT-OFFICE AREAS
+    # --------------------------------------------------------
+
+    "private equity",
+    "prime synthetics",
 ]
 
 
 # ============================================================
-# EARLY-CAREER TERMS
+# EARLY-CAREER PATTERNS
+# ============================================================
+#
+# Regex is used here rather than simple substring matching.
+#
+# This prevents:
+#
+# "intern"
+#
+# from incorrectly matching:
+#
+# "International"
+#
 # ============================================================
 
-ENTRY_LEVEL_TERMS = [
-    "analyst",
-    "new analyst",
-    "summer analyst",
-    "graduate",
-    "graduate programme",
-    "graduate program",
-    "intern",
-    "internship",
-    "off cycle",
-    "off-cycle",
-    "seasonal",
+ENTRY_LEVEL_PATTERNS = [
+
+    r"\bnew analyst\b",
+
+    r"\bsummer analyst\b",
+
+    r"\bfull[- ]time analyst\b",
+
+    r"\banalyst program\b",
+
+    r"\banalyst programme\b",
+
+    r"\bgraduate program\b",
+
+    r"\bgraduate programme\b",
+
+    r"\binternship\b",
+
+    r"\bintern\b",
+
+    r"\boff[- ]cycle\b",
+
+    r"\bseasonal\b",
+
+    # Generic analyst-level positions
+    r"\banalyst\b",
 ]
 
 
 # ============================================================
-# SENIOR ROLES WE DON'T WANT
+# SENIOR ROLES WE DO NOT WANT
 # ============================================================
 
-SENIOR_TERMS = [
-    "vice president",
-    " vp ",
-    "vp/",
-    "vp -",
-    "svp",
-    "senior vice president",
-    "executive director",
-    "managing director",
-    "director",
-    "head of",
-    "principal",
-    "partner",
+SENIOR_PATTERNS = [
+
+    # Broad protection against senior titles
+    r"\bsenior\b",
+
+    r"\bsr\.?\s*analyst\b",
+
+    # Banking hierarchy
+    r"\bavp\b",
+    r"\bvp\b",
+    r"\bsvp\b",
+
+    r"\bvice president\b",
+    r"\bsenior vice president\b",
+
+    r"\bexecutive director\b",
+    r"\bmanaging director\b",
+
+    r"\bdirector\b",
+
+    r"\bhead of\b",
+
+    r"\bprincipal\b",
+
+    r"\bpartner\b",
 ]
 
 
 # ============================================================
-# NON-TARGET FUNCTIONS
+# FUNCTIONS WE DO NOT WANT
 # ============================================================
 
 IRRELEVANT_TERMS = [
+
+    # --------------------------------------------------------
+    # TECHNOLOGY
+    # --------------------------------------------------------
+
     "software engineer",
     "software developer",
+    "full stack developer",
     "developer",
-    "technology",
     "data engineer",
+    "applications support",
+    "application support",
+    "technology support",
+    "production support",
+
+    # --------------------------------------------------------
+    # OPERATIONS / MIDDLE OFFICE
+    # --------------------------------------------------------
+
+    "trade support",
+    "middle office",
+    "operations",
+    "client onboarding",
+    "settlements",
+    "reconciliation",
+
+    # --------------------------------------------------------
+    # COMPLIANCE / AML
+    # --------------------------------------------------------
+
+    "kyc",
+    "know your customer",
+    "aml",
+    "anti-money laundering",
+    "compliance",
+    "internal audit",
+
+    # --------------------------------------------------------
+    # CORPORATE / FINANCE SUPPORT
+    # --------------------------------------------------------
+
+    "controller",
+    "controllers",
+    "data analyst",
+    "fp&a",
+    "financial planning",
+
+    # --------------------------------------------------------
+    # HR / LEGAL / COMMUNICATIONS
+    # --------------------------------------------------------
 
     "human resources",
     "recruiting",
     "recruiter",
-
     "legal counsel",
     "communications",
 
-    "kyc",
-    "know your customer",
-
-    "internal audit",
-    "compliance",
-
-    "operations",
-    "middle office",
-
-    "controller",
-    "controllers",
+    # --------------------------------------------------------
+    # OBVIOUSLY IRRELEVANT
+    # --------------------------------------------------------
 
     "driver",
     "administrative assistant",
@@ -188,17 +296,31 @@ IRRELEVANT_TERMS = [
 
 
 # ============================================================
-# MBB — FOR WHEN WE ADD MCKINSEY / BCG / BAIN
+# MBB ROLE PATTERNS
+# ============================================================
+#
+# These are not active until MBB sources are added to
+# sources.py with:
+#
+# "category": "MBB"
+#
 # ============================================================
 
-MBB_TERMS = [
-    "business analyst",
-    "associate consultant",
-    "consultant",
-    "consulting",
-    "associate",
-    "intern",
-    "internship",
+MBB_PATTERNS = [
+
+    r"\bbusiness analyst\b",
+
+    r"\bassociate consultant\b",
+
+    r"\bconsultant\b",
+
+    r"\bconsulting\b",
+
+    r"\bassociate\b",
+
+    r"\bintern\b",
+
+    r"\binternship\b",
 ]
 
 
@@ -207,6 +329,10 @@ MBB_TERMS = [
 # ============================================================
 
 def get_value(job, field):
+    """
+    Safely obtain a value from an ats-scrapers Job object.
+    """
+
     value = getattr(job, field, None)
 
     if value is None:
@@ -216,6 +342,10 @@ def get_value(job, field):
 
 
 def contains_any(text, terms):
+    """
+    Simple case-insensitive substring matching.
+    """
+
     text = text.lower()
 
     return any(
@@ -224,18 +354,56 @@ def contains_any(text, terms):
     )
 
 
+def matches_any_pattern(text, patterns):
+    """
+    Regex-based matching.
+
+    Useful for words such as:
+
+    intern
+    analyst
+    VP
+
+    where simple substring matching can produce
+    false positives.
+    """
+
+    return any(
+        re.search(
+            pattern,
+            text,
+            flags=re.IGNORECASE,
+        )
+        for pattern in patterns
+    )
+
+
 # ============================================================
 # LOCATION FILTER
 # ============================================================
 
 def classify_location(job):
+    """
+    Return:
+
+    Hong Kong
+    Mexico City
+    None
+
+    Only the structured ATS location field is used.
+    """
 
     location = get_value(
         job,
         "location",
     ).lower()
 
-    # Morgan Stanley often simply says HK
+
+    # --------------------------------------------------------
+    # HONG KONG
+    # --------------------------------------------------------
+
+    # Morgan Stanley frequently just says "HK"
     if location.strip() == "hk":
         return "Hong Kong"
 
@@ -245,20 +413,37 @@ def classify_location(job):
     ):
         return "Hong Kong"
 
+
+    # --------------------------------------------------------
+    # MEXICO CITY
+    # --------------------------------------------------------
+
     if any(
         term in location
         for term in MEXICO_CITY_TERMS
     ):
         return "Mexico City"
 
+
     return None
 
 
 # ============================================================
-# FINANCE FILTER
+# FINANCE ROLE FILTER
 # ============================================================
 
 def is_finance_role(job):
+    """
+    Decide whether a bank job is relevant.
+
+    Order:
+
+    1. Remove senior jobs
+    2. Remove stale programs
+    3. Remove irrelevant functions
+    4. Require entry-level seniority
+    5. Require relevant finance function
+    """
 
     title = get_value(
         job,
@@ -275,92 +460,150 @@ def is_finance_role(job):
         "team",
     )
 
-    description = get_value(
-        job,
-        "description",
-    )
-
     title_lower = title.lower()
 
-    combined = (
+
+    # ========================================================
+    # 1. REMOVE SENIOR POSITIONS
+    # ========================================================
+
+    if matches_any_pattern(
+        title_lower,
+        SENIOR_PATTERNS,
+    ):
+        return False
+
+
+    # ========================================================
+    # 2. REMOVE EXPLICITLY OLD PROGRAMS
+    # ========================================================
+    #
+    # Example:
+    #
+    # "2025 Corporate Banking Full Time Analyst Program"
+    #
+    # We DON'T care when the job was posted.
+    #
+    # We only remove it if the TITLE explicitly says
+    # 2025 or earlier.
+    #
+    # ========================================================
+
+    old_year = re.search(
+        r"\b20(?:1\d|2[0-5])\b",
+        title_lower,
+    )
+
+    if old_year:
+        return False
+
+
+    # ========================================================
+    # 3. REMOVE IRRELEVANT FUNCTIONS
+    # ========================================================
+
+    if contains_any(
+        title_lower,
+        IRRELEVANT_TERMS,
+    ):
+        return False
+
+
+    # ========================================================
+    # 4. REQUIRE ENTRY-LEVEL SENIORITY
+    # ========================================================
+
+    if not matches_any_pattern(
+        title_lower,
+        ENTRY_LEVEL_PATTERNS,
+    ):
+        return False
+
+
+    # ========================================================
+    # 5. REQUIRE RELEVANT FINANCE FUNCTION
+    # ========================================================
+    #
+    # IMPORTANT:
+    #
+    # We deliberately DO NOT use the complete job description.
+    #
+    # Descriptions often contain generic phrases such as:
+    #
+    # "supporting Investment Banking and Global Markets"
+    #
+    # which caused irrelevant jobs to become false positives.
+    #
+    # Title + department + team are much cleaner.
+    #
+    # ========================================================
+
+    finance_text = (
         title
         + " "
         + department
         + " "
         + team
-        + " "
-        + description[:10000]
     ).lower()
 
-    # --------------------------------------
-    # REMOVE SENIOR POSITIONS
-    # --------------------------------------
-
-    if contains_any(
-        title_lower,
-        SENIOR_TERMS,
-    ):
-        return False
-
-    # --------------------------------------
-    # REMOVE CLEARLY IRRELEVANT FUNCTIONS
-    # --------------------------------------
-
-    if contains_any(
-        title_lower,
-        IRRELEVANT_TERMS,
-    ):
-        return False
-
-    # --------------------------------------
-    # MUST LOOK LIKE EARLY CAREER
-    # --------------------------------------
 
     if not contains_any(
-        title_lower,
-        ENTRY_LEVEL_TERMS,
-    ):
-        return False
-
-    # --------------------------------------
-    # MUST BE FINANCE
-    # --------------------------------------
-
-    if not contains_any(
-        combined,
+        finance_text,
         FINANCE_TERMS,
     ):
         return False
+
 
     return True
 
 
 # ============================================================
-# MBB FILTER
+# MBB ROLE FILTER
 # ============================================================
 
 def is_mbb_role(job):
+    """
+    Filter MBB jobs once McKinsey / BCG / Bain
+    are added to sources.py.
+    """
 
     title = get_value(
         job,
         "title",
-    ).lower()
+    )
 
-    if contains_any(
-        title,
-        SENIOR_TERMS,
+    title_lower = title.lower()
+
+
+    # Remove senior consulting roles
+    if matches_any_pattern(
+        title_lower,
+        SENIOR_PATTERNS,
     ):
         return False
 
+
+    # Remove irrelevant corporate roles
     if contains_any(
-        title,
+        title_lower,
         IRRELEVANT_TERMS,
     ):
         return False
 
-    return contains_any(
-        title,
-        MBB_TERMS,
+
+    # Remove explicitly old programs
+    old_year = re.search(
+        r"\b20(?:1\d|2[0-5])\b",
+        title_lower,
+    )
+
+    if old_year:
+        return False
+
+
+    return matches_any_pattern(
+        title_lower,
+        MBB_PATTERNS,
     )
 
 
@@ -369,6 +612,10 @@ def is_mbb_role(job):
 # ============================================================
 
 def make_job_id(job, company):
+    """
+    Create a stable identifier so we can tell whether
+    we have already seen a job.
+    """
 
     global_id = get_value(
         job,
@@ -378,32 +625,52 @@ def make_job_id(job, company):
     if global_id:
         return global_id
 
+
     requisition_id = get_value(
         job,
         "requisition_id",
     )
 
     if requisition_id:
+
         return (
             f"{company}:"
             f"{requisition_id}"
         )
 
+
     url = (
-        get_value(job, "apply_url")
+        get_value(
+            job,
+            "apply_url",
+        )
         or
-        get_value(job, "url")
+        get_value(
+            job,
+            "url",
+        )
     )
 
     if url:
         return f"{company}:{url}"
 
-    # Last-resort fallback
+
+    # --------------------------------------------------------
+    # LAST-RESORT FALLBACK
+    # --------------------------------------------------------
 
     raw = (
         company
-        + get_value(job, "title")
-        + get_value(job, "location")
+        + "|"
+        + get_value(
+            job,
+            "title",
+        )
+        + "|"
+        + get_value(
+            job,
+            "location",
+        )
     )
 
     return hashlib.sha256(
@@ -421,14 +688,26 @@ def job_to_dict(
     category,
     location_group,
 ):
+    """
+    Convert different ATS job formats into one consistent
+    dictionary.
+    """
 
     url = (
-        get_value(job, "apply_url")
+        get_value(
+            job,
+            "apply_url",
+        )
         or
-        get_value(job, "url")
+        get_value(
+            job,
+            "url",
+        )
     )
 
+
     return {
+
         "id": make_job_id(
             job,
             company,
@@ -470,10 +749,13 @@ def job_to_dict(
 
 
 # ============================================================
-# LOAD / SAVE STATE
+# LOAD STATE
 # ============================================================
 
 def load_seen():
+    """
+    Load every job ID the monitor has ever seen.
+    """
 
     if not SEEN_FILE.exists():
         return set()
@@ -492,7 +774,14 @@ def load_seen():
         return set()
 
 
+# ============================================================
+# SAVE JSON
+# ============================================================
+
 def save_json(path, data):
+    """
+    Save formatted JSON.
+    """
 
     path.write_text(
         json.dumps(
@@ -505,18 +794,30 @@ def save_json(path, data):
 
 
 # ============================================================
-# MAIN SCRAPER
+# COLLECT JOBS
 # ============================================================
 
 def collect_jobs():
+    """
+    Fetch all configured sources and return only the jobs
+    that match:
+
+    Hong Kong / Mexico City
+             +
+    target finance / MBB function
+             +
+    appropriate seniority
+    """
 
     relevant_jobs = []
+
 
     print()
     print("=" * 90)
     print("FINANCE + MBB JOB MONITOR")
     print("Hong Kong + Mexico City")
     print("=" * 90)
+
 
     for source in SOURCES:
 
@@ -527,27 +828,49 @@ def collect_jobs():
             "FINANCE",
         )
 
+
         print()
         print(
             f"Checking {company}..."
         )
 
+
         try:
+
+            # ------------------------------------------------
+            # CREATE SCRAPER
+            # ------------------------------------------------
 
             scraper = get_scraper(
                 source["ats"],
                 source["target"],
             )
 
+
+            # ------------------------------------------------
+            # FETCH ALL LIVE JOBS
+            # ------------------------------------------------
+
             jobs = scraper.fetch()
+
 
             print(
                 f"  Retrieved: {len(jobs)}"
             )
 
+
             company_matches = 0
 
+
+            # ------------------------------------------------
+            # FILTER JOBS
+            # ------------------------------------------------
+
             for job in jobs:
+
+                # --------------------------------------------
+                # LOCATION
+                # --------------------------------------------
 
                 location_group = (
                     classify_location(job)
@@ -555,6 +878,11 @@ def collect_jobs():
 
                 if not location_group:
                     continue
+
+
+                # --------------------------------------------
+                # ROLE
+                # --------------------------------------------
 
                 if category == "MBB":
 
@@ -566,6 +894,11 @@ def collect_jobs():
                     if not is_finance_role(job):
                         continue
 
+
+                # --------------------------------------------
+                # ADD RESULT
+                # --------------------------------------------
+
                 relevant_jobs.append(
                     job_to_dict(
                         job,
@@ -575,11 +908,14 @@ def collect_jobs():
                     )
                 )
 
+
                 company_matches += 1
+
 
             print(
                 f"  Relevant: {company_matches}"
             )
+
 
         except Exception as error:
 
@@ -589,22 +925,41 @@ def collect_jobs():
                 f"{error}"
             )
 
+
     return relevant_jobs
 
 
 # ============================================================
-# RUN
+# MAIN
 # ============================================================
 
 def main():
 
+    # --------------------------------------------------------
+    # IS THIS THE FIRST EVER RUN?
+    # --------------------------------------------------------
+
     first_run = not SEEN_FILE.exists()
+
+
+    # --------------------------------------------------------
+    # LOAD HISTORY
+    # --------------------------------------------------------
 
     seen = load_seen()
 
+
+    # --------------------------------------------------------
+    # COLLECT CURRENT RELEVANT JOBS
+    # --------------------------------------------------------
+
     jobs = collect_jobs()
 
-    # Remove accidental duplicates
+
+    # --------------------------------------------------------
+    # REMOVE ACCIDENTAL DUPLICATES
+    # --------------------------------------------------------
+
     unique_jobs = {
         job["id"]: job
         for job in jobs
@@ -614,7 +969,11 @@ def main():
         unique_jobs.values()
     )
 
-    # Sort nicely
+
+    # --------------------------------------------------------
+    # SORT OUTPUT NICELY
+    # --------------------------------------------------------
+
     jobs.sort(
         key=lambda x: (
             x["location_group"],
@@ -623,14 +982,14 @@ def main():
         )
     )
 
+
+    # --------------------------------------------------------
+    # DETECT NEW JOBS
+    # --------------------------------------------------------
+
     if first_run:
 
-        # IMPORTANT:
-        #
-        # On the first ever run, all existing
-        # vacancies become the baseline.
-        #
-        # We do NOT call them "new".
+        # First run establishes the baseline.
         new_jobs = []
 
     else:
@@ -641,11 +1000,21 @@ def main():
             if job["id"] not in seen
         ]
 
-    # Add currently active roles to history
+
+    # --------------------------------------------------------
+    # UPDATE HISTORY
+    # --------------------------------------------------------
+
     for job in jobs:
+
         seen.add(
             job["id"]
         )
+
+
+    # --------------------------------------------------------
+    # SAVE RESULTS
+    # --------------------------------------------------------
 
     save_json(
         CURRENT_FILE,
@@ -663,15 +1032,21 @@ def main():
     )
 
 
+    # --------------------------------------------------------
+    # SUMMARY
+    # --------------------------------------------------------
+
     print()
     print("=" * 90)
     print("RESULT")
     print("=" * 90)
 
+
     print(
         f"Relevant active jobs: "
         f"{len(jobs)}"
     )
+
 
     print(
         f"NEW jobs since last run: "
@@ -679,9 +1054,14 @@ def main():
     )
 
 
+    # --------------------------------------------------------
+    # FIRST RUN INFORMATION
+    # --------------------------------------------------------
+
     if first_run:
 
         print()
+
         print(
             "FIRST RUN: existing jobs have "
             "been saved as the baseline."
@@ -692,15 +1072,21 @@ def main():
         )
 
 
+    # --------------------------------------------------------
+    # DISPLAY NEW JOBS
+    # --------------------------------------------------------
+
     if new_jobs:
 
         print()
         print("🚨 NEW JOBS")
         print("=" * 90)
 
+
         for job in new_jobs:
 
             print()
+
             print(
                 f"{job['company']}"
             )
@@ -713,6 +1099,7 @@ def main():
                 f"📍 {job['location']}"
             )
 
+
             if job["posted_at"]:
 
                 print(
@@ -720,10 +1107,15 @@ def main():
                     f"{job['posted_at']}"
                 )
 
+
             print(
                 job["url"]
             )
 
+
+# ============================================================
+# START PROGRAM
+# ============================================================
 
 if __name__ == "__main__":
     main()
