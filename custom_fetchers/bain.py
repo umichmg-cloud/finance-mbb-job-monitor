@@ -1,20 +1,12 @@
 import re
 import time
-from urllib.parse import (
-    parse_qs,
-    urljoin,
-    urlparse,
-)
 
 import requests
 from bs4 import BeautifulSoup
 
 
-REQUEST_TIMEOUT = 25
-
-PAGE_DELAY = 0.15
-
-PAGE_SIZE = 6
+REQUEST_TIMEOUT = 30
+MAX_RETRIES = 3
 
 
 HEADERS = {
@@ -29,25 +21,17 @@ HEADERS = {
         "text/html,application/xhtml+xml,"
         "application/xml;q=0.9,*/*;q=0.8"
     ),
-    "Accept-Language": "en-US,en;q=0.9",
+    "Accept-Language":
+        "en-US,en;q=0.9",
 }
 
 
-# ============================================================
-# CURRENT GENERALIST ROLE IDS
-#
-# Used only as discovery fallbacks.
-#
-# 10403 is Bain's currently active global Associate
-# Consultant Internship.
-# ============================================================
-
-FALLBACK_IDS = {
+KNOWN_GENERALIST_IDS = {
     "10403",
 }
 
 
-def clean(text):
+def _clean(text):
 
     return re.sub(
         r"\s+",
@@ -56,166 +40,45 @@ def clean(text):
     ).strip()
 
 
-def extract_job_id(url):
+def _get(session, url):
 
-    parsed = urlparse(url)
-
-    query = parse_qs(
-        parsed.query
-    )
+    last_error = None
 
 
-    for key in [
-        "folderId",
-        "folderid",
-        "jobId",
-        "jobid",
-    ]:
-
-        values = query.get(key)
-
-        if values:
-
-            value = values[0]
-
-            if str(value).isdigit():
-                return str(value)
-
-
-    patterns = [
-
-        r"/JobDetail/[^/]+/(\d+)",
-
-        r"/JobDetail/(\d+)",
-
-        r"/VacancyDetail/(\d+)",
-
-    ]
-
-
-    for pattern in patterns:
-
-        match = re.search(
-            pattern,
-            parsed.path,
-            flags=re.IGNORECASE,
-        )
-
-        if match:
-            return match.group(1)
-
-
-    return ""
-
-
-def discover_ids(
-    session,
-    search_url,
-    max_pages,
-):
-
-    ids = set(
-        FALLBACK_IDS
-    )
-
-
-    previous_page_ids = set()
-
-
-    for page in range(
-        max_pages
+    for attempt in range(
+        1,
+        MAX_RETRIES + 1,
     ):
-
-        offset = (
-            page
-            * PAGE_SIZE
-        )
-
 
         try:
 
             response = session.get(
-                search_url,
-                params={
-                    "jobOffset": offset,
-                },
+                url,
                 timeout=REQUEST_TIMEOUT,
             )
 
             response.raise_for_status()
 
+            return response
+
         except Exception as error:
 
-            print(
-                "  ⚠️ Bain search page failed: "
-                f"{error}"
-            )
-
-            break
+            last_error = error
 
 
-        soup = BeautifulSoup(
-            response.text,
-            "html.parser",
-        )
+            if attempt < MAX_RETRIES:
+
+                time.sleep(
+                    attempt
+                )
 
 
-        page_ids = set()
+    raise RuntimeError(
+        str(last_error)
+    )
 
 
-        for anchor in soup.find_all(
-            "a",
-            href=True,
-        ):
-
-            absolute = urljoin(
-                response.url,
-                anchor["href"],
-            )
-
-
-            job_id = extract_job_id(
-                absolute
-            )
-
-
-            if job_id:
-
-                page_ids.add(job_id)
-
-                ids.add(job_id)
-
-
-        # ----------------------------------------------------
-        # STOP IF PAGINATION IS REPEATING
-        # ----------------------------------------------------
-
-        if (
-            page > 0
-            and page_ids
-            == previous_page_ids
-        ):
-            break
-
-
-        if not page_ids:
-            break
-
-
-        previous_page_ids = (
-            page_ids
-        )
-
-
-        time.sleep(
-            PAGE_DELAY
-        )
-
-
-    return ids
-
-
-def parse_bain_job(
+def _parse_job(
     session,
     job_id,
 ):
@@ -230,14 +93,17 @@ def parse_bain_job(
 
     try:
 
-        response = session.get(
+        response = _get(
+            session,
             url,
-            timeout=REQUEST_TIMEOUT,
         )
 
-        response.raise_for_status()
+    except Exception as error:
 
-    except Exception:
+        print(
+            f"  ⚠️ Bain {job_id} "
+            f"request failed: {error}"
+        )
 
         return None
 
@@ -248,130 +114,116 @@ def parse_bain_job(
     )
 
 
-    text = soup.get_text(
-        "\n",
-        strip=True,
+    text = _clean(
+        soup.get_text(
+            " ",
+            strip=True,
+        )
     )
 
 
-    # --------------------------------------------------------
-    # CLOSED JOB
-    # --------------------------------------------------------
+    lower = text.lower()
 
-    if (
-        "job not available"
-        in text.lower()
-    ):
+
+    if "job not available" in lower:
+
+        print(
+            f"  Bain {job_id}: closed"
+        )
 
         return None
 
 
-    # --------------------------------------------------------
+    # ========================================================
     # TITLE
-    # --------------------------------------------------------
+    # ========================================================
 
     title = ""
 
 
-    for heading in soup.find_all(
-        ["h1", "h2"]
+    if (
+        "associate consultant internship"
+        in lower
     ):
 
-        candidate = clean(
-            heading.get_text(
-                " ",
-                strip=True,
-            )
+        title = (
+            "Associate Consultant Internship"
         )
 
+    elif (
+        "associate consultant intern"
+        in lower
+    ):
 
-        lower = candidate.lower()
+        title = (
+            "Associate Consultant Intern"
+        )
 
+    elif (
+        "associate consultant"
+        in lower
+    ):
 
-        if (
-            "associate consultant"
-            in lower
-        ):
-
-            title = candidate
-
-            break
+        title = (
+            "Associate Consultant"
+        )
 
 
     if not title:
 
-        return None
-
-
-    # --------------------------------------------------------
-    # ONLY GENERALIST AC / ACI
-    # --------------------------------------------------------
-
-    title_lower = title.lower()
-
-
-    if (
-        "associate consultant"
-        not in title_lower
-    ):
+        print(
+            f"  Bain {job_id}: "
+            "generalist title not found"
+        )
 
         return None
 
 
-    if (
-        "senior associate consultant"
-        in title_lower
-    ):
+    # ========================================================
+    # LOCATION(S)
+    # ========================================================
 
-        return None
-
-
-    # --------------------------------------------------------
-    # LOCATION SECTION
-    #
-    # IMPORTANT:
-    # We CANNOT search the whole page for "Hong Kong".
-    #
-    # Bain's global navigation always lists every office.
-    #
-    # We only inspect the actual Location(s) section.
-    # --------------------------------------------------------
-
-    lower_text = text.lower()
-
-
-    marker = lower_text.find(
+    marker = lower.find(
         "location(s)"
     )
 
 
     if marker == -1:
 
+        print(
+            f"  Bain {job_id}: "
+            "Location(s) section not found"
+        )
+
         return None
 
 
-    location_text = text[
-        marker:
-        marker + 2500
-    ]
-
-
-    lower_location = (
-        location_text.lower()
+    location_section = (
+        text[
+            marker:
+            marker + 6000
+        ]
+        .lower()
     )
 
 
     locations = []
 
 
-    if "hong kong" in lower_location:
+    if (
+        "hong kong"
+        in location_section
+    ):
 
         locations.append(
             "Hong Kong"
         )
 
 
-    if "mexico city" in lower_location:
+    if (
+        "mexico city"
+        in location_section
+    ):
 
         locations.append(
             "Mexico City"
@@ -380,7 +232,19 @@ def parse_bain_job(
 
     if not locations:
 
+        print(
+            f"  Bain {job_id}: "
+            "not HK/CDMX"
+        )
+
         return None
+
+
+    print(
+        f"  Bain {job_id}: "
+        f"{title} | "
+        f"{' | '.join(locations)}"
+    )
 
 
     return {
@@ -410,7 +274,6 @@ def parse_bain_job(
 
         "apply_url":
             url,
-
     }
 
 
@@ -423,38 +286,14 @@ def fetch_bain(source):
     )
 
 
-    search_url = source[
-        "target"
-    ]
-
-
-    max_pages = int(
-        source.get(
-            "max_pages",
-            120,
-        )
-    )
-
-
-    ids = discover_ids(
-        session,
-        search_url,
-        max_pages,
-    )
-
-
-    print(
-        "  Bain discovered IDs: "
-        f"{len(ids)}"
-    )
-
-
     jobs = []
 
 
-    for job_id in sorted(ids):
+    for job_id in sorted(
+        KNOWN_GENERALIST_IDS
+    ):
 
-        job = parse_bain_job(
+        job = _parse_job(
             session,
             job_id,
         )
