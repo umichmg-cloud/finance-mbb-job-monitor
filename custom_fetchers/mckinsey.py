@@ -5,7 +5,8 @@ import requests
 from bs4 import BeautifulSoup
 
 
-REQUEST_TIMEOUT = 30
+REQUEST_TIMEOUT = 20
+
 
 HEADERS = {
     "User-Agent": (
@@ -23,24 +24,26 @@ HEADERS = {
 }
 
 
-TARGET_LOCATIONS = [
-    "Hong Kong SAR",
-    "Mexico City",
-]
+TARGET_LOCATIONS = {
+    "Hong Kong SAR": [
+        "hong kong",
+    ],
+    "Mexico City": [
+        "mexico city",
+        "ciudad de mexico",
+        "ciudad de méxico",
+    ],
+}
 
 
 # ============================================================
-# STABLE MCKINSEY EARLY-CAREER POSTINGS
-# ============================================================
+# KNOWN GLOBAL EARLY-CAREER MCKINSEY JOBS
 #
-# McKinsey uses global job postings that may contain many
-# office locations.
-#
-# These are also used as a fallback if the dynamic search page
-# does not expose its result links in server-rendered HTML.
+# These provide a safe fallback if McKinsey's dynamic search
+# page does not expose its result links to GitHub Actions.
 # ============================================================
 
-SEED_JOBS = [
+FALLBACK_JOBS = [
 
     {
         "id": "15136",
@@ -69,19 +72,8 @@ SEED_JOBS = [
 ]
 
 
-def _get(session, url):
-    response = session.get(
-        url,
-        timeout=REQUEST_TIMEOUT,
-        allow_redirects=True,
-    )
+def extract_job_id(url):
 
-    response.raise_for_status()
-
-    return response
-
-
-def _job_id(url):
     match = re.search(
         r"-(\d+)(?:[/?#]|$)",
         url,
@@ -93,69 +85,79 @@ def _job_id(url):
     return ""
 
 
-def _target_location(text):
-    lower = text.lower()
+def title_from_url(url):
 
-    locations = []
+    slug = (
+        url.rstrip("/")
+        .split("/")[-1]
+    )
 
+    slug = re.sub(
+        r"-\d+$",
+        "",
+        slug,
+    )
 
-    if "hong kong" in lower:
-
-        locations.append(
-            "Hong Kong SAR"
-        )
+    lower = slug.lower()
 
 
     if (
-        "mexico city" in lower
-        or "ciudad de mexico" in lower
-        or "ciudad de méxico" in lower
+        "businessanalystintern"
+        in lower
     ):
-
-        locations.append(
-            "Mexico City"
-        )
+        return "Business Analyst Intern"
 
 
-    return " | ".join(
-        locations
-    )
+    if "businessanalyst" in lower:
+        return "Business Analyst"
 
 
-def _discover_urls(
+    return ""
+
+
+def discover_jobs(
     session,
     search_url,
 ):
     """
-    Try McKinsey's own filtered search pages.
+    Search McKinsey by target city.
 
-    If McKinsey exposes job links in the HTML, this lets us
-    discover new Business Analyst postings automatically.
+    IMPORTANT:
+    We do NOT open each individual job page afterward.
+    Those detail pages were timing out from GitHub Actions.
 
-    If the site is fully client-rendered, SEED_JOBS remains
-    the fallback.
+    Instead, the city search itself tells us which location
+    exposed each job URL.
     """
 
-    urls = set()
+    discovered = {}
 
 
-    for city in TARGET_LOCATIONS:
+    for location_name in TARGET_LOCATIONS:
 
         url = (
             search_url.rstrip("/")
             + "?cities="
-            + quote(city)
+            + quote(location_name)
         )
 
 
         try:
 
-            response = _get(
-                session,
+            response = session.get(
                 url,
+                timeout=REQUEST_TIMEOUT,
             )
 
-        except Exception:
+            response.raise_for_status()
+
+        except Exception as error:
+
+            print(
+                "  ⚠️ McKinsey search failed "
+                f"for {location_name}: "
+                f"{error}"
+            )
 
             continue
 
@@ -166,8 +168,11 @@ def _discover_urls(
         )
 
 
+        urls = set()
+
+
         # ----------------------------------------------------
-        # NORMAL LINKS
+        # NORMAL HTML LINKS
         # ----------------------------------------------------
 
         for anchor in soup.find_all(
@@ -180,34 +185,56 @@ def _discover_urls(
                 anchor["href"],
             )
 
-            lower = absolute.lower()
+            absolute = (
+                absolute
+                .split("?")[0]
+            )
 
 
             if (
                 "/careers/search-jobs/jobs/"
-                in lower
-                and "businessanalyst"
-                in lower
+                not in absolute.lower()
             ):
+                continue
 
-                urls.add(
-                    absolute.split("?")[0]
-                )
+
+            if (
+                "businessanalyst"
+                not in absolute.lower()
+            ):
+                continue
+
+
+            urls.add(absolute)
 
 
         # ----------------------------------------------------
-        # LINKS EMBEDDED IN JAVASCRIPT / JSON
+        # LINKS EMBEDDED IN SCRIPT / JSON
         # ----------------------------------------------------
 
-        for href in re.findall(
-            r"""["']([^"']*/careers/search-jobs/jobs/[^"'?#]+)["']""",
+        matches = re.findall(
+            (
+                r"""["']("""
+                r"""[^"']*"""
+                r"""/careers/search-jobs/jobs/"""
+                r"""[^"'?#]+"""
+                r""")["']"""
+            ),
             response.text,
             flags=re.IGNORECASE,
-        ):
+        )
+
+
+        for href in matches:
 
             absolute = urljoin(
                 response.url,
                 href,
+            )
+
+            absolute = (
+                absolute
+                .split("?")[0]
             )
 
 
@@ -215,31 +242,33 @@ def _discover_urls(
                 "businessanalyst"
                 in absolute.lower()
             ):
-
-                urls.add(
-                    absolute.split("?")[0]
-                )
+                urls.add(absolute)
 
 
-    return urls
+        # ----------------------------------------------------
+        # SAVE WHERE EACH URL APPEARED
+        # ----------------------------------------------------
+
+        for job_url in urls:
+
+            if job_url not in discovered:
+
+                discovered[job_url] = {
+                    "locations": set(),
+                }
+
+
+            discovered[
+                job_url
+            ]["locations"].add(
+                location_name
+            )
+
+
+    return discovered
 
 
 def fetch_mckinsey(source):
-    """
-    Fetch McKinsey Business Analyst-family roles directly
-    from McKinsey's official careers site.
-
-    The generic Workday adapter is deliberately not used.
-    """
-
-    search_url = source.get(
-        "target",
-        (
-            "https://www.mckinsey.com/"
-            "careers/search-jobs"
-        ),
-    )
-
 
     session = requests.Session()
 
@@ -248,214 +277,145 @@ def fetch_mckinsey(source):
     )
 
 
-    seed_by_url = {
-        job["url"]: job
-        for job in SEED_JOBS
-    }
+    search_url = source["target"]
 
 
-    candidate_urls = set(
-        seed_by_url
-    )
-
-
-    discovered = _discover_urls(
+    discovered = discover_jobs(
         session,
         search_url,
     )
 
 
-    candidate_urls.update(
-        discovered
-    )
-
-
     print(
-        "  McKinsey candidate URLs: "
-        f"{len(candidate_urls)}"
+        "  McKinsey discovered URLs: "
+        f"{len(discovered)}"
     )
 
 
-    jobs = []
+    jobs_by_id = {}
 
 
-    for url in sorted(
-        candidate_urls
+    # ========================================================
+    # DISCOVERED JOBS
+    # ========================================================
+
+    for url, metadata in (
+        discovered.items()
     ):
 
-        seed = seed_by_url.get(
-            url,
-            {},
-        )
+        job_id = extract_job_id(url)
 
-
-        try:
-
-            response = _get(
-                session,
-                url,
-            )
-
-        except Exception as error:
-
-            print(
-                "  ⚠️ McKinsey skipped "
-                f"{url}: {error}"
-            )
-
-            continue
-
-
-        # ----------------------------------------------------
-        # PARSE OFFICIAL JOB PAGE
-        # ----------------------------------------------------
-
-        soup = BeautifulSoup(
-            response.text,
-            "html.parser",
-        )
-
-
-        page_text = soup.get_text(
-            " ",
-            strip=True,
-        )
-
-
-        heading = soup.find(
-            "h1"
-        )
-
-
-        title = ""
-
-        if heading:
-
-            title = heading.get_text(
-                " ",
-                strip=True,
-            )
-
-
-        # Some McKinsey pages are partly client-rendered.
-        # Use known metadata as a fallback.
-
-        if (
-            not title
-            or title.lower()
-            in {
-                "jobs",
-                "search jobs",
-            }
-        ):
-
-            title = seed.get(
-                "title",
-                "",
-            )
-
-
-        # ----------------------------------------------------
-        # WE ONLY WANT BA-FAMILY RECRUITING
-        # ----------------------------------------------------
-
-        if (
-            "business analyst"
-            not in title.lower()
-        ):
-
-            continue
-
-
-        # ----------------------------------------------------
-        # LOCATION
-        # ----------------------------------------------------
-
-        location = (
-            _target_location(
-                page_text
-            )
-            or seed.get(
-                "location",
-                "",
-            )
-        )
-
-
-        if not location:
-
-            continue
-
-
-        # ----------------------------------------------------
-        # EXCLUDE MEXICO'S 10-12 MONTH IN-SCHOOL PROGRAM
-        # ----------------------------------------------------
-
-        if (
-            "10-12 month"
-            in title.lower()
-            or "10–12 month"
-            in title.lower()
-        ):
-
-            continue
-
-
-        # ----------------------------------------------------
-        # ID
-        # ----------------------------------------------------
-
-        job_id = (
-            _job_id(url)
-            or seed.get(
-                "id",
-                "",
-            )
-        )
+        title = title_from_url(url)
 
 
         if not job_id:
-
             continue
 
 
-        jobs.append(
-            {
+        if not title:
+            continue
 
-                "global_id": (
-                    f"mckinsey:{job_id}"
-                ),
 
-                "title": title,
-
-                "location": location,
-
-                "posted_at": "",
-
-                "department": "Consulting",
-
-                "team": "",
-
-                "url": url,
-
-                "apply_url": url,
-
-            }
+        locations = sorted(
+            metadata["locations"]
         )
 
 
+        if not locations:
+            continue
+
+
+        global_id = (
+            f"mckinsey:{job_id}"
+        )
+
+
+        jobs_by_id[
+            global_id
+        ] = {
+
+            "global_id":
+                global_id,
+
+            "title":
+                title,
+
+            "location":
+                " | ".join(
+                    locations
+                ),
+
+            "posted_at":
+                "",
+
+            "department":
+                "Consulting",
+
+            "team":
+                "Generalist",
+
+            "url":
+                url,
+
+            "apply_url":
+                url,
+
+        }
+
+
     # ========================================================
-    # DEDUPLICATE
+    # FALLBACK
+    #
+    # McKinsey sometimes hides search results behind
+    # client-side rendering.
+    #
+    # We therefore retain known current global BA postings.
     # ========================================================
 
-    unique = {
-        job["global_id"]: job
-        for job in jobs
-    }
+    for job in FALLBACK_JOBS:
+
+        global_id = (
+            f"mckinsey:{job['id']}"
+        )
+
+
+        if global_id in jobs_by_id:
+            continue
+
+
+        jobs_by_id[
+            global_id
+        ] = {
+
+            "global_id":
+                global_id,
+
+            "title":
+                job["title"],
+
+            "location":
+                job["location"],
+
+            "posted_at":
+                "",
+
+            "department":
+                "Consulting",
+
+            "team":
+                "Generalist",
+
+            "url":
+                job["url"],
+
+            "apply_url":
+                job["url"],
+
+        }
 
 
     jobs = list(
-        unique.values()
+        jobs_by_id.values()
     )
 
 
