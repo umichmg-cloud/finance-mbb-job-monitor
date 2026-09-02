@@ -234,4 +234,136 @@ SOURCES = [
         "max_pages": 120,
     },
 
+    # ============================================================
+    # ADDITIONAL FINANCE SOURCES
+    # ============================================================
+
+
+    # ------------------------------------------------------------
+    # BANK OF AMERICA
+    # TAL.net campus careers
+    # ------------------------------------------------------------
+
+    {
+        "name": "Bank of America",
+        "category": "FINANCE",
+        "method": "custom",
+        "fetcher": "talnet",
+        "target": (
+            "https://bankcampuscareers.tal.net/"
+            "vx/lang-en-GB/mobile-0/brand-4/"
+            "candidate/jobboard/vacancy/1/adv/"
+        ),
+        "page_size": 50,
+        "max_pages": 6,
+        "detail_location_fallback": False,
+    },
+
+
+    # ------------------------------------------------------------
+    # UBS
+    # BrassRing Graduate Board
+    # ------------------------------------------------------------
+
+    {
+        "name": "UBS",
+        "category": "FINANCE",
+        "method": "custom",
+        "fetcher": "brassring",
+        "target": (
+            "https://jobs.ubs.com/"
+            "TGnewUI/Search/home/HomeWithPreLoad"
+        ),
+        "partner_id": "25008",
+        "site_id": "5131",
+        "page_step": 10,
+        "max_pages": 20,
+    },
+
+
+    # ------------------------------------------------------------
+    # DEUTSCHE BANK
+    # Yello / Recsolu
+    # ------------------------------------------------------------
+
+    {
+        "name": "Deutsche Bank",
+        "category": "FINANCE",
+        "method": "custom",
+        "fetcher": "yello",
+        "target": (
+            "https://db.recsolu.com/"
+            "job_boards/1"
+        ),
+    },
+
+
+    # ------------------------------------------------------------
+    # EVERCORE
+    # TAL.net students and graduates
+    # ------------------------------------------------------------
+
+    {
+        "name": "Evercore",
+        "category": "FINANCE",
+        "method": "custom",
+        "fetcher": "talnet",
+        "target": (
+            "https://evercore.tal.net/"
+            "vx/lang-en-GB/mobile-0/"
+            "appcentre-1/brand-6/"
+            "candidate/jobboard/vacancy/2"
+        ),
+        "page_size": 50,
+        "max_pages": 4,
+        "detail_location_fallback": True,
+    },
+
+
+    # ------------------------------------------------------------
+    # ROTHSCHILD & CO
+    # TAL.net student opportunities
+    # ------------------------------------------------------------
+
+    {
+        "name": "Rothschild & Co",
+        "category": "FINANCE",
+        "method": "custom",
+        "fetcher": "talnet",
+        "target": (
+            "https://rothschildandco.tal.net/"
+            "vx/lang-en-GB/mobile-0/"
+            "appcentre-ext/brand-4/"
+            "candidate/jobboard/vacancy/2/adv/"
+        ),
+        "page_size": 50,
+        "max_pages": 4,
+        "detail_location_fallback": True,
+    },
+
+
+    # ------------------------------------------------------------
+    # MACQUARIE GROUP
+    # Avature
+    #
+    # Official graduate/intern search filter.
+    # ------------------------------------------------------------
+
+    {
+        "name": "Macquarie Group",
+        "category": "FINANCE",
+        "method": "custom",
+        "fetcher": "avature",
+        "target": (
+            "https://recruitment.macquarie.com/"
+            "en_US/careers/SearchJobs/"
+        ),
+        "search_params": {
+            "7959": "[421070,421069]",
+            "7959_format": "14495",
+            "listFilterMode": "1",
+        },
+        "records_per_page": 50,
+        "max_pages": 10,
+    },
 ]
