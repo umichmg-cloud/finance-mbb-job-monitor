@@ -7,6 +7,7 @@ from ats_scrapers.scrapers import get_scraper
 
 from sources import SOURCES
 from custom_fetchers import fetch_custom
+from excel_export import export_jobs_excel
 
 
 # ============================================================
