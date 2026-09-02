@@ -144,6 +144,13 @@ FINANCE_TERMS = [
 
     "private equity",
     "prime synthetics",
+    "global advisory",
+    "strategic advisory",
+    "capital markets advisory",
+
+    "macquarie capital",
+    "commodities and global markets",
+    "macquarie asset management",
 ]
 
 
@@ -164,6 +171,10 @@ FINANCE_TERMS = [
 # ============================================================
 
 ENTRY_LEVEL_PATTERNS = [
+    
+    r"\bgraduate talent program\b",
+    
+    r"\bgraduate talent programme\b",
 
     r"\bnew analyst\b",
 
