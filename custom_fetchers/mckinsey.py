@@ -5,7 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-REQUEST_TIMEOUT = 20
+REQUEST_TIMEOUT = 5
 
 
 HEADERS = {
