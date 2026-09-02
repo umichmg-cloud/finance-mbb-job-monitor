@@ -71,9 +71,7 @@ SOURCES = [
 
     # ------------------------------------------------------------
     # HSBC
-    #
-    # This source is currently expected to fail.
-    # We will replace it later with a custom Eightfold source.
+    # Eightfold custom
     # ------------------------------------------------------------
 
     {
@@ -85,6 +83,7 @@ SOURCES = [
         "domain": "hsbc.com",
         "max_pages": 200,
     },
+
 
     # ------------------------------------------------------------
     # BARCLAYS
@@ -179,7 +178,7 @@ SOURCES = [
 
     # ------------------------------------------------------------
     # MCKINSEY & COMPANY
-    # Workday
+    # Custom McKinsey fetcher
     # ------------------------------------------------------------
 
     {
@@ -196,7 +195,26 @@ SOURCES = [
 
     # ------------------------------------------------------------
     # BOSTON CONSULTING GROUP
-    # Custom Eightfold fetcher
+    # Eightfold custom
+    # ------------------------------------------------------------
+
+    {
+        "name": "Boston Consulting Group",
+        "category": "MBB",
+        "method": "custom",
+        "fetcher": "eightfold",
+        "target": "https://bcg.eightfold.ai",
+        "domain": "bcg.com",
+        "max_pages": 200,
+    },
+
+
+    # ------------------------------------------------------------
+    # BAIN & COMPANY
+    # Custom Bain fetcher
+    #
+    # IMPORTANT:
+    # Bain should appear ONLY ONCE.
     # ------------------------------------------------------------
 
     {
@@ -211,28 +229,6 @@ SOURCES = [
         "max_pages": 120,
     },
 
-
-    # ------------------------------------------------------------
-    # BAIN & COMPANY
-    # Workday
-    # ------------------------------------------------------------
-
-    {
-        "name": "Bain & Company",
-        "category": "MBB",
-        "method": "custom",
-        "fetcher": "avature",
-        "target": (
-            "https://careers.bain.com"
-        ),
-        "avature_origin": (
-            "https://bain.avature.net"
-        ),
-        "role_terms": [
-            "associate consultant",
-        ],
-        "max_pages": 120,
-    },
 
     # ============================================================
     # ADDITIONAL FINANCE SOURCES
@@ -271,13 +267,11 @@ SOURCES = [
         "method": "custom",
         "fetcher": "brassring",
         "target": (
-            "https://jobs.ubs.com/"
-            "TGnewUI/Search/home/HomeWithPreLoad"
+            "https://sjobs.brassring.com/"
+            "TGnewUI/Search/Home/Home"
         ),
         "partner_id": "25008",
         "site_id": "5131",
-        "page_step": 10,
-        "max_pages": 20,
     },
 
 
@@ -293,7 +287,7 @@ SOURCES = [
         "fetcher": "yello",
         "target": (
             "https://db.recsolu.com/"
-            "job_boards/1"
+            "job_boards/DT5zqeU-qZM-ltrVsIvR9Q"
         ),
     },
 
@@ -345,8 +339,6 @@ SOURCES = [
     # ------------------------------------------------------------
     # MACQUARIE GROUP
     # Avature
-    #
-    # Official graduate/intern search filter.
     # ------------------------------------------------------------
 
     {
@@ -366,4 +358,5 @@ SOURCES = [
         "records_per_page": 50,
         "max_pages": 10,
     },
+
 ]
