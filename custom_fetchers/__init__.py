@@ -1,7 +1,4 @@
 def fetch_custom(source):
-    """
-    Route custom job sources to the correct fetcher.
-    """
 
     fetcher = source["fetcher"]
 
@@ -9,8 +6,7 @@ def fetch_custom(source):
     # ========================================================
     # EIGHTFOLD
     #
-    # HSBC
-    # BCG
+    # HSBC + BCG
     # ========================================================
 
     if fetcher == "eightfold":
@@ -40,25 +36,19 @@ def fetch_custom(source):
 
 
     # ========================================================
-    # AVATURE
-    #
-    # Bain
+    # BAIN
     # ========================================================
 
-    if fetcher == "avature":
+    if fetcher == "bain":
 
-        from .avature import (
-            fetch_avature
+        from .bain import (
+            fetch_bain
         )
 
-        return fetch_avature(
+        return fetch_bain(
             source
         )
 
-
-    # ========================================================
-    # UNKNOWN
-    # ========================================================
 
     raise ValueError(
         f"Unknown custom fetcher: "
