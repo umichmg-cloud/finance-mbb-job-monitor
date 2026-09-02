@@ -309,21 +309,42 @@ IRRELEVANT_TERMS = [
 
 MBB_PATTERNS = [
 
+    # McKinsey
     r"\bbusiness analyst\b",
 
+    # Bain
     r"\bassociate consultant\b",
 
-    r"\bconsultant\b",
+    # BCG generalist full-time recruiting
+    r"\bconsulting\b.*\bfull[- ]time\b",
+    r"\bconsultant\b.*\bfull[- ]time\b",
 
-    r"\bconsulting\b",
+    # BCG generalist internship recruiting
+    r"\bconsulting\b.*\binternship\b",
+    r"\bconsultant\b.*\binternship\b",
 
-    r"\bassociate\b",
-
-    r"\bintern\b",
-
-    r"\binternship\b",
 ]
+MBB_EXCLUDED_TERMS = [
 
+    # Specialist / technology tracks
+    "bcg x",
+    "ai scientist",
+    "data scientist",
+    "data science",
+    "software engineer",
+    "engineer",
+    "product manager",
+
+    # Not the user's university recruiting track
+    "advanced degree",
+    "us campus",
+    "u.s. campus",
+    "europe campus",
+
+    # Experienced / specialist consulting
+    "expert consultant",
+    "expert associate",
+]
 
 # ============================================================
 # HELPERS
@@ -579,7 +600,12 @@ def is_mbb_role(job):
     )
 
     title_lower = title.lower()
-
+    
+    if contains_any(
+        title_lower,
+        MBB_EXCLUDED_TERMS,
+    ):
+        return False
 
     # Remove senior consulting roles
     if matches_any_pattern(
