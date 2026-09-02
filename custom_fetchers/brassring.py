@@ -1,4 +1,4 @@
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -55,7 +55,6 @@ def _question(item, name):
         [],
     )
 
-
     if not isinstance(
         questions,
         list,
@@ -101,7 +100,6 @@ def _location(item):
         "location",
     )
 
-
     if direct:
         return direct
 
@@ -122,7 +120,7 @@ def _location(item):
     )
 
 
-    return ", ".join(
+    combined = ", ".join(
         value
         for value in [
             city,
@@ -133,12 +131,36 @@ def _location(item):
     )
 
 
-def fetch_brassring(source):
-    """
-    BrassRing API fetcher.
+    if combined:
+        return combined
 
-    Currently used for the UBS graduate board.
-    """
+
+    # BrassRing occasionally includes location
+    # inside the job title.
+
+    title = _question(
+        item,
+        "jobtitle",
+    )
+
+
+    if " - " in title:
+
+        return (
+            title.split(" - ")[-1]
+            .strip()
+        )
+
+
+    return ""
+
+
+def fetch_brassring(source):
+
+    board_url = source[
+        "target"
+    ]
+
 
     partner_id = str(
         source["partner_id"]
@@ -149,17 +171,21 @@ def fetch_brassring(source):
     )
 
 
-    board_url = (
-        "https://sjobs.brassring.com/"
-        "TGnewUI/Search/Home/Home"
-        f"?partnerid={partner_id}"
-        f"&siteid={site_id}"
+    parsed = urlparse(
+        board_url
+    )
+
+
+    origin = (
+        f"{parsed.scheme}://"
+        f"{parsed.netloc}"
     )
 
 
     api_url = (
-        "https://sjobs.brassring.com/"
-        "TgNewUI/Search/Ajax/MatchedJobs"
+        origin
+        + "/TgNewUI/"
+        "Search/Ajax/MatchedJobs"
     )
 
 
@@ -172,23 +198,28 @@ def fetch_brassring(source):
 
     print(
         "  BrassRing board: "
-        f"partner={partner_id}, "
-        f"site={site_id}"
+        f"{board_url}"
     )
 
 
     # ========================================================
     # STEP 1
-    #
-    # Open the board and establish the BrassRing session.
+    # ESTABLISH SESSION
     # ========================================================
 
     response = session.get(
         board_url,
         timeout=REQUEST_TIMEOUT,
+        allow_redirects=True,
     )
 
     response.raise_for_status()
+
+
+    print(
+        "  BrassRing final host: "
+        f"{response.url}"
+    )
 
 
     soup = BeautifulSoup(
@@ -197,7 +228,7 @@ def fetch_brassring(source):
     )
 
 
-    request_token = (
+    verification_token = (
         _hidden_input(
             soup,
             "__RequestVerificationToken",
@@ -214,7 +245,7 @@ def fetch_brassring(source):
 
 
     rft = (
-        request_token
+        verification_token
         or _hidden_input(
             soup,
             "hdRft",
@@ -224,8 +255,7 @@ def fetch_brassring(source):
 
     # ========================================================
     # STEP 2
-    #
-    # Ask BrassRing for all matched jobs.
+    # MATCHED JOBS API
     # ========================================================
 
     payload = {
@@ -266,7 +296,7 @@ def fetch_brassring(source):
     }
 
 
-    api_headers = {
+    headers = {
 
         "Accept":
             "application/json, "
@@ -276,7 +306,7 @@ def fetch_brassring(source):
             "application/json; charset=utf-8",
 
         "Origin":
-            "https://sjobs.brassring.com",
+            origin,
 
         "Referer":
             board_url,
@@ -291,13 +321,13 @@ def fetch_brassring(source):
 
     if rft:
 
-        api_headers["RFT"] = rft
+        headers["RFT"] = rft
 
 
     result = session.post(
         api_url,
         json=payload,
-        headers=api_headers,
+        headers=headers,
         timeout=REQUEST_TIMEOUT,
     )
 
@@ -331,6 +361,10 @@ def fetch_brassring(source):
     )
 
 
+    # ========================================================
+    # NORMALIZE
+    # ========================================================
+
     jobs = []
 
 
@@ -349,14 +383,14 @@ def fetch_brassring(source):
         )
 
 
+        if not title:
+            continue
+
+
         req_id = _question(
             item,
             "reqid",
         )
-
-
-        if not title:
-            continue
 
 
         location = _location(
@@ -368,28 +402,28 @@ def fetch_brassring(source):
             continue
 
 
-        link = _clean(
+        direct_link = _clean(
             item.get("Link")
         )
 
 
-        if link:
+        if direct_link:
 
             url = urljoin(
                 board_url,
-                link,
+                direct_link,
             )
 
         elif req_id:
 
             url = (
-                "https://sjobs.brassring.com/"
-                "TGnewUI/Search/home/"
-                "HomeWithPreLoad"
-                f"?partnerid={partner_id}"
-                f"&siteid={site_id}"
-                "&PageType=JobDetails"
+                origin
+                + "/TGnewUI/Search/"
+                "Home/Home"
+                "?PageType=JobDetails"
                 f"&jobid={req_id}"
+                f"&partnerid={partner_id}"
+                f"&siteid={site_id}"
             )
 
         else:
@@ -406,11 +440,12 @@ def fetch_brassring(source):
         jobs.append(
             {
 
-                "global_id": (
-                    "brassring:"
-                    "UBS:"
-                    f"{stable_id}"
-                ),
+                "global_id":
+                    (
+                        "brassring:"
+                        "UBS:"
+                        f"{stable_id}"
+                    ),
 
                 "title":
                     title,
