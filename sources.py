@@ -79,14 +79,12 @@ SOURCES = [
     {
         "name": "HSBC",
         "category": "FINANCE",
-        "method": "ats",
-        "ats": "successfactors",
-        "target": (
-            "https://career2.successfactors.eu/"
-            "career?company=hsbcholdin"
-        ),
+        "method": "custom",
+        "fetcher": "eightfold",
+        "target": "https://hsbc.eightfold.ai",
+        "domain": "hsbc.com",
+        "max_pages": 200,
     },
-
 
     # ------------------------------------------------------------
     # BARCLAYS
@@ -202,15 +200,15 @@ SOURCES = [
     # ------------------------------------------------------------
 
     {
-        "name": "Boston Consulting Group",
+        "name": "Bain & Company",
         "category": "MBB",
         "method": "custom",
-        "fetcher": "eightfold",
+        "fetcher": "bain",
         "target": (
-            "https://bcg.eightfold.ai"
+            "https://careers.bain.com/"
+            "jobs/SearchJobs"
         ),
-        "domain": "bcg.com",
-        "max_pages": 200,
+        "max_pages": 120,
     },
 
 
