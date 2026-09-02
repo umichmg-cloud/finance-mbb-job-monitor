@@ -267,13 +267,14 @@ SOURCES = [
         "method": "custom",
         "fetcher": "brassring",
         "target": (
-            "https://sjobs.brassring.com/"
+            "https://jobs.ubs.com/"
             "TGnewUI/Search/Home/Home"
+            "?partnerid=25008"
+            "&siteid=5131"
         ),
         "partner_id": "25008",
         "site_id": "5131",
     },
-
 
     # ------------------------------------------------------------
     # DEUTSCHE BANK
@@ -287,7 +288,7 @@ SOURCES = [
         "fetcher": "yello",
         "target": (
             "https://db.recsolu.com/"
-            "job_boards/DT5zqeU-qZM-ltrVsIvR9Q"
+            "job_boards/1?locale=en"
         ),
     },
 
