@@ -1,18 +1,10 @@
-import re
-import time
-from urllib.parse import (
-    parse_qs,
-    urlencode,
-    urljoin,
-    urlparse,
-)
+from urllib.parse import urljoin
 
 import requests
 from bs4 import BeautifulSoup
 
 
 REQUEST_TIMEOUT = 30
-PAGE_DELAY = 0.20
 
 
 HEADERS = {
@@ -21,7 +13,7 @@ HEADERS = {
         "(Windows NT 10.0; Win64; x64) "
         "AppleWebKit/537.36 "
         "(KHTML, like Gecko) "
-        "Chrome/131.0 Safari/537.36"
+        "Chrome/124.0.0.0 Safari/537.36"
     ),
     "Accept": (
         "text/html,application/xhtml+xml,"
@@ -31,127 +23,70 @@ HEADERS = {
 }
 
 
-def _clean(text):
-    return re.sub(
-        r"\s+",
-        " ",
-        text or "",
-    ).strip()
+def _clean(value):
+
+    if value is None:
+        return ""
+
+    return str(value).strip()
 
 
-def _target_location(text):
-    lower = text.lower()
+def _hidden_input(soup, name):
 
-    locations = []
+    element = soup.find(
+        "input",
+        attrs={
+            "name": name,
+        },
+    )
+
+    if not element:
+        return ""
+
+    return _clean(
+        element.get("value")
+    )
 
 
-    if "hong kong" in lower:
-        locations.append(
-            "Hong Kong SAR"
-        )
+def _question(item, name):
+
+    questions = item.get(
+        "Questions",
+        [],
+    )
 
 
-    if (
-        "mexico city" in lower
-        or "ciudad de mexico" in lower
-        or "ciudad de méxico" in lower
-        or "cdmx" in lower
+    if not isinstance(
+        questions,
+        list,
     ):
-        locations.append(
-            "Mexico City"
-        )
+        return ""
 
 
-    return " | ".join(
-        locations
-    )
+    wanted = name.lower()
 
 
-def _job_id(url):
-    parsed = urlparse(
-        url
-    )
+    for question in questions:
 
-    query = parse_qs(
-        parsed.query
-    )
+        if not isinstance(
+            question,
+            dict,
+        ):
+            continue
 
 
-    for key in [
-        "jobid",
-        "jobId",
-        "JobId",
-    ]:
-
-        values = query.get(
-            key
-        )
-
-        if values:
-            return str(
-                values[0]
+        current = _clean(
+            question.get(
+                "QuestionName"
             )
+        ).lower()
 
 
-    match = re.search(
-        r"jobid[=:](\d+)",
-        url,
-        flags=re.IGNORECASE,
-    )
-
-
-    if match:
-        return match.group(1)
-
-
-    return ""
-
-
-def _title(anchor):
-    title = _clean(
-        anchor.get_text(
-            " ",
-            strip=True,
-        )
-    )
-
-
-    if (
-        title
-        and len(title) > 4
-        and title.lower()
-        not in {
-            "apply",
-            "share",
-            "show more",
-        }
-    ):
-        return title
-
-
-    parent = (
-        anchor.find_parent("li")
-        or anchor.find_parent("article")
-        or anchor.find_parent("div")
-    )
-
-
-    if parent:
-
-        heading = parent.find(
-            [
-                "h2",
-                "h3",
-                "h4",
-            ]
-        )
-
-        if heading:
+        if current == wanted:
 
             return _clean(
-                heading.get_text(
-                    " ",
-                    strip=True,
+                question.get(
+                    "Value"
                 )
             )
 
@@ -159,79 +94,72 @@ def _title(anchor):
     return ""
 
 
-def _job_url(
-    target,
-    partner_id,
-    site_id,
-    job_id,
-):
-    query = urlencode(
-        {
-            "PageType":
-                "JobDetails",
-            "jobid":
-                job_id,
-            "partnerid":
-                partner_id,
-            "siteid":
-                site_id,
-        }
+def _location(item):
+
+    direct = _question(
+        item,
+        "location",
     )
 
 
-    base = (
-        target
-        .split("?")[0]
+    if direct:
+        return direct
+
+
+    city = _question(
+        item,
+        "city",
+    )
+
+    state = _question(
+        item,
+        "state",
+    )
+
+    country = _question(
+        item,
+        "country",
     )
 
 
-    return (
-        base
-        + "?"
-        + query
+    return ", ".join(
+        value
+        for value in [
+            city,
+            state,
+            country,
+        ]
+        if value
     )
 
 
 def fetch_brassring(source):
     """
-    BrassRing / TGnewUI fetcher.
+    BrassRing API fetcher.
 
-    Currently used for UBS Graduate Board.
+    Currently used for the UBS graduate board.
     """
-
-    target = source[
-        "target"
-    ]
-
-
-    company = source[
-        "name"
-    ]
-
 
     partner_id = str(
         source["partner_id"]
     )
-
 
     site_id = str(
         source["site_id"]
     )
 
 
-    max_pages = int(
-        source.get(
-            "max_pages",
-            20,
-        )
+    board_url = (
+        "https://sjobs.brassring.com/"
+        "TGnewUI/Search/Home/Home"
+        f"?partnerid={partner_id}"
+        f"&siteid={site_id}"
     )
 
 
-    page_step = int(
-        source.get(
-            "page_step",
-            10,
-        )
+    api_url = (
+        "https://sjobs.brassring.com/"
+        "TgNewUI/Search/Ajax/MatchedJobs"
     )
 
 
@@ -242,11 +170,6 @@ def fetch_brassring(source):
     )
 
 
-    jobs_by_id = {}
-
-    previous_page_ids = set()
-
-
     print(
         "  BrassRing board: "
         f"partner={partner_id}, "
@@ -254,154 +177,240 @@ def fetch_brassring(source):
     )
 
 
-    for page in range(
-        max_pages
-    ):
+    # ========================================================
+    # STEP 1
+    #
+    # Open the board and establish the BrassRing session.
+    # ========================================================
 
-        record_start = (
-            1
-            + page
-            * page_step
+    response = session.get(
+        board_url,
+        timeout=REQUEST_TIMEOUT,
+    )
+
+    response.raise_for_status()
+
+
+    soup = BeautifulSoup(
+        response.text,
+        "html.parser",
+    )
+
+
+    request_token = (
+        _hidden_input(
+            soup,
+            "__RequestVerificationToken",
         )
+    )
 
 
-        params = {
-            "PageType":
-                "searchResults",
-            "SearchType":
-                "linkquery",
-            "partnerid":
-                partner_id,
-            "siteid":
-                site_id,
-            "recordstart":
-                record_start,
-        }
-
-
-        try:
-
-            response = session.get(
-                target,
-                params=params,
-                timeout=REQUEST_TIMEOUT,
-            )
-
-            response.raise_for_status()
-
-        except Exception as error:
-
-            if page == 0:
-                raise RuntimeError(
-                    f"BrassRing request failed: "
-                    f"{error}"
-                )
-
-            break
-
-
-        soup = BeautifulSoup(
-            response.text,
-            "html.parser",
+    encrypted_session = (
+        _hidden_input(
+            soup,
+            "CookieValue",
         )
+    )
 
 
-        page_ids = set()
+    rft = (
+        request_token
+        or _hidden_input(
+            soup,
+            "hdRft",
+        )
+    )
 
 
-        for anchor in soup.find_all(
-            "a",
-            href=True,
+    # ========================================================
+    # STEP 2
+    #
+    # Ask BrassRing for all matched jobs.
+    # ========================================================
+
+    payload = {
+
+        "PartnerId":
+            partner_id,
+
+        "SiteId":
+            site_id,
+
+        "Keyword":
+            "",
+
+        "Location":
+            "",
+
+        "LocationCustomSolrFields":
+            "Location",
+
+        "FacetFilterFields":
+            None,
+
+        "TurnOffHttps":
+            False,
+
+        "Latitude":
+            0,
+
+        "Longitude":
+            0,
+
+        "PowerSearchOptions": {
+            "PowerSearchOption": [],
+        },
+
+        "encryptedsessionvalue":
+            encrypted_session,
+    }
+
+
+    api_headers = {
+
+        "Accept":
+            "application/json, "
+            "text/javascript, */*; q=0.01",
+
+        "Content-Type":
+            "application/json; charset=utf-8",
+
+        "Origin":
+            "https://sjobs.brassring.com",
+
+        "Referer":
+            board_url,
+
+        "X-Requested-With":
+            "XMLHttpRequest",
+
+        "User-Agent":
+            HEADERS["User-Agent"],
+    }
+
+
+    if rft:
+
+        api_headers["RFT"] = rft
+
+
+    result = session.post(
+        api_url,
+        json=payload,
+        headers=api_headers,
+        timeout=REQUEST_TIMEOUT,
+    )
+
+
+    result.raise_for_status()
+
+
+    data = result.json()
+
+
+    rows = (
+        data
+        .get("Jobs", {})
+        .get("Job", [])
+    )
+
+
+    if isinstance(rows, dict):
+
+        rows = [rows]
+
+
+    if not isinstance(rows, list):
+
+        rows = []
+
+
+    print(
+        "  BrassRing API returned: "
+        f"{len(rows)} jobs"
+    )
+
+
+    jobs = []
+
+
+    for item in rows:
+
+        if not isinstance(
+            item,
+            dict,
         ):
+            continue
 
-            absolute = urljoin(
-                response.url,
-                anchor["href"],
+
+        title = _question(
+            item,
+            "jobtitle",
+        )
+
+
+        req_id = _question(
+            item,
+            "reqid",
+        )
+
+
+        if not title:
+            continue
+
+
+        location = _location(
+            item
+        )
+
+
+        if not location:
+            continue
+
+
+        link = _clean(
+            item.get("Link")
+        )
+
+
+        if link:
+
+            url = urljoin(
+                board_url,
+                link,
             )
 
+        elif req_id:
 
-            job_id = _job_id(
-                absolute
+            url = (
+                "https://sjobs.brassring.com/"
+                "TGnewUI/Search/home/"
+                "HomeWithPreLoad"
+                f"?partnerid={partner_id}"
+                f"&siteid={site_id}"
+                "&PageType=JobDetails"
+                f"&jobid={req_id}"
             )
 
+        else:
 
-            if not job_id:
-                continue
-
-
-            title = _title(
-                anchor
-            )
+            url = board_url
 
 
-            if not title:
-                continue
+        stable_id = (
+            req_id
+            or url
+        )
 
 
-            parent = (
-                anchor.find_parent("li")
-                or anchor.find_parent(
-                    "article"
-                )
-                or anchor.find_parent(
-                    "div"
-                )
-            )
+        jobs.append(
+            {
 
-
-            surrounding = title
-
-
-            if parent:
-
-                surrounding += (
-                    " "
-                    + _clean(
-                        parent.get_text(
-                            " ",
-                            strip=True,
-                        )
-                    )
-                )
-
-
-            location = (
-                _target_location(
-                    surrounding
-                )
-            )
-
-
-            page_ids.add(
-                job_id
-            )
-
-
-            if not location:
-                continue
-
-
-            global_id = (
-                f"brassring:"
-                f"{company}:"
-                f"{job_id}"
-            )
-
-
-            url = _job_url(
-                target,
-                partner_id,
-                site_id,
-                job_id,
-            )
-
-
-            jobs_by_id[
-                global_id
-            ] = {
-
-                "global_id":
-                    global_id,
+                "global_id": (
+                    "brassring:"
+                    "UBS:"
+                    f"{stable_id}"
+                ),
 
                 "title":
                     title,
@@ -410,10 +419,16 @@ def fetch_brassring(source):
                     location,
 
                 "posted_at":
-                    "",
+                    _question(
+                        item,
+                        "lastupdated",
+                    ),
 
                 "department":
-                    "",
+                    _question(
+                        item,
+                        "department",
+                    ),
 
                 "team":
                     "",
@@ -424,42 +439,12 @@ def fetch_brassring(source):
                 "apply_url":
                     url,
             }
-
-
-        # ----------------------------------------------------
-        # STOP REPEATING PAGE
-        # ----------------------------------------------------
-
-        if not page_ids:
-            break
-
-
-        if (
-            page > 0
-            and page_ids
-            == previous_page_ids
-        ):
-            break
-
-
-        previous_page_ids = (
-            page_ids
         )
-
-
-        time.sleep(
-            PAGE_DELAY
-        )
-
-
-    jobs = list(
-        jobs_by_id.values()
-    )
 
 
     print(
-        f"  BrassRing returned: "
-        f"{len(jobs)} target-market jobs"
+        "  BrassRing normalized: "
+        f"{len(jobs)} jobs"
     )
 
 
