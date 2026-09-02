@@ -1,5 +1,4 @@
 import re
-import time
 from urllib.parse import urljoin
 
 import requests
@@ -7,7 +6,6 @@ from bs4 import BeautifulSoup
 
 
 REQUEST_TIMEOUT = 30
-DETAIL_DELAY = 0.10
 
 
 HEADERS = {
@@ -22,18 +20,9 @@ HEADERS = {
         "text/html,application/xhtml+xml,"
         "application/xml;q=0.9,*/*;q=0.8"
     ),
-    "Accept-Language": "en-US,en;q=0.9",
+    "Accept-Language":
+        "en-US,en;q=0.9",
 }
-
-
-EARLY_CAREER_TERMS = [
-    "intern",
-    "internship",
-    "graduate",
-    "analyst",
-    "programme",
-    "program",
-]
 
 
 def _clean(text):
@@ -87,30 +76,41 @@ def _is_job_link(url):
     )
 
 
-def _surrounding_text(anchor):
+def _card_text(anchor):
+    """
+    Walk upward until we find the Yello result card
+    containing title + country + city.
+    """
 
-    current = anchor
+    node = anchor
 
 
-    for _ in range(5):
+    for _ in range(6):
 
-        current = current.parent
+        node = node.parent
 
-        if current is None:
+        if node is None:
             break
 
 
         text = _clean(
-            current.get_text(
+            node.get_text(
                 " ",
                 strip=True,
             )
         )
 
 
+        lower = text.lower()
+
+
         if (
-            "hong kong" in text.lower()
-            or "mexico" in text.lower()
+            "hong kong"
+            in lower
+            or "mexico city"
+            in lower
+            or "ciudad de mexico"
+            in lower
         ):
 
             return text
@@ -119,50 +119,7 @@ def _surrounding_text(anchor):
     return ""
 
 
-def _detail_location(
-    session,
-    url,
-):
-
-    try:
-
-        response = session.get(
-            url,
-            timeout=REQUEST_TIMEOUT,
-        )
-
-        response.raise_for_status()
-
-    except Exception:
-
-        return ""
-
-
-    soup = BeautifulSoup(
-        response.text,
-        "html.parser",
-    )
-
-
-    text = _clean(
-        soup.get_text(
-            " ",
-            strip=True,
-        )
-    )
-
-
-    return _target_location(
-        text
-    )
-
-
 def fetch_yello(source):
-    """
-    Yello / Recsolu early-career fetcher.
-
-    Used for Deutsche Bank.
-    """
 
     board_url = source[
         "target"
@@ -176,98 +133,61 @@ def fetch_yello(source):
     )
 
 
-    best_response = None
+    response = session.get(
+        board_url,
+        timeout=REQUEST_TIMEOUT,
+    )
 
-    best_links = []
-
-
-    # ========================================================
-    # The board is rendered slightly differently depending
-    # on locale, so test both.
-    # ========================================================
-
-    for locale in [
-        "en",
-        "de",
-    ]:
-
-        try:
-
-            response = session.get(
-                board_url,
-                params={
-                    "locale": locale,
-                },
-                timeout=REQUEST_TIMEOUT,
-            )
-
-            response.raise_for_status()
-
-        except Exception:
-
-            continue
+    response.raise_for_status()
 
 
-        soup = BeautifulSoup(
-            response.text,
-            "html.parser",
+    soup = BeautifulSoup(
+        response.text,
+        "html.parser",
+    )
+
+
+    all_job_links = []
+
+
+
+    for anchor in soup.find_all(
+        "a",
+        href=True,
+    ):
+
+        url = urljoin(
+            response.url,
+            anchor["href"],
         )
 
 
-        links = [
-
-            anchor
-
-            for anchor in soup.find_all(
-                "a",
-                href=True,
-            )
-
-            if _is_job_link(
-                urljoin(
-                    response.url,
-                    anchor["href"],
-                )
-            )
-
-        ]
-
-
-        if (
-            best_response is None
-            or len(links)
-            > len(best_links)
+        if not _is_job_link(
+            url
         ):
-
-            best_response = response
-
-            best_links = links
+            continue
 
 
-    if best_response is None:
-
-        raise RuntimeError(
-            "Deutsche Yello board "
-            "could not be loaded."
+        all_job_links.append(
+            (
+                anchor,
+                url,
+            )
         )
 
 
     print(
         "  Yello discovered job links: "
-        f"{len(best_links)}"
+        f"{len(all_job_links)}"
     )
 
 
-    jobs_by_url = {}
+    jobs_by_id = {}
 
 
-    for anchor in best_links:
-
-        url = urljoin(
-            best_response.url,
-            anchor["href"],
-        )
-
+    for anchor, url in (
+        all_job_links
+    ):
 
         title = _clean(
             anchor.get_text(
@@ -281,21 +201,8 @@ def fetch_yello(source):
             continue
 
 
-        title_lower = (
-            title.lower()
-        )
-
-
-        if not any(
-            term in title_lower
-            for term in EARLY_CAREER_TERMS
-        ):
-
-            continue
-
-
         surrounding = (
-            _surrounding_text(
+            _card_text(
                 anchor
             )
         )
@@ -309,22 +216,6 @@ def fetch_yello(source):
 
 
         if not location:
-
-            location = (
-                _detail_location(
-                    session,
-                    url,
-                )
-            )
-
-
-            time.sleep(
-                DETAIL_DELAY
-            )
-
-
-        if not location:
-
             continue
 
 
@@ -343,7 +234,7 @@ def fetch_yello(source):
         )
 
 
-        jobs_by_url[
+        jobs_by_id[
             global_id
         ] = {
 
@@ -374,13 +265,13 @@ def fetch_yello(source):
 
 
     jobs = list(
-        jobs_by_url.values()
+        jobs_by_id.values()
     )
 
 
     print(
-        "  Yello returned: "
-        f"{len(jobs)} target-market jobs"
+        "  Yello target-market jobs: "
+        f"{len(jobs)}"
     )
 
 
