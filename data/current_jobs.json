@@ -516,6 +516,18 @@
     "url": "https://jpmc.fa.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=CX_1001#210745269"
   },
   {
+    "id": "oracle:210789242",
+    "company": "JPMorgan Chase",
+    "category": "FINANCE",
+    "title": "Asset Servicing Analyst (6 Months Fixed Term Contract)",
+    "location": "Kwun Tong, Kowloon, Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-09-10 00:00:00",
+    "department": "",
+    "team": "Trading Services",
+    "url": "https://jpmc.fa.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=CX_1001#210789242"
+  },
+  {
     "id": "oracle:210786034",
     "company": "JPMorgan Chase",
     "category": "FINANCE",
@@ -742,6 +754,18 @@
     "department": "Investment Bank",
     "team": "",
     "url": "https://jobs.ubs.com/TGnewUI/Search/home/HomeWithPreLoad?partnerid=25008&siteid=5131&PageType=JobDetails&jobid=349902"
+  },
+  {
+    "id": "brassring:UBS:350660",
+    "company": "UBS",
+    "category": "FINANCE",
+    "title": "2027 Off-Cycle Internship - Investment Bank Quants - Hong Kong",
+    "location": "Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "03-Sep-2026",
+    "department": "Investment Bank",
+    "team": "",
+    "url": "https://jobs.ubs.com/TGnewUI/Search/home/HomeWithPreLoad?partnerid=25008&siteid=5131&PageType=JobDetails&jobid=350660"
   },
   {
     "id": "workday:26986886",
