@@ -576,6 +576,18 @@
     "url": "https://jpmc.fa.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=CX_1001#210693430"
   },
   {
+    "id": "oracle:210784769",
+    "company": "JPMorgan Chase",
+    "category": "FINANCE",
+    "title": "International Private Bank - Global Private Bank Advisor - China Market - Analyst",
+    "location": "Central and Western, Hong Kong Island, Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-08-27 00:00:00",
+    "department": "",
+    "team": "Analysts",
+    "url": "https://jpmc.fa.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=CX_1001#210784769"
+  },
+  {
     "id": "oracle:210782978",
     "company": "JPMorgan Chase",
     "category": "FINANCE",
@@ -622,18 +634,6 @@
     "department": "",
     "team": "Client Advisory",
     "url": "https://jpmc.fa.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=CX_1001#210689990"
-  },
-  {
-    "id": "oracle:210784769",
-    "company": "JPMorgan Chase",
-    "category": "FINANCE",
-    "title": "International Private Bank, Analyst - China Market",
-    "location": "Central and Western, Hong Kong Island, Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "2026-08-27 00:00:00",
-    "department": "",
-    "team": "Analysts",
-    "url": "https://jpmc.fa.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=CX_1001#210784769"
   },
   {
     "id": "oracle:210765962",
@@ -754,18 +754,6 @@
     "department": "",
     "team": "",
     "url": "https://citi.wd5.myworkdayjobs.com/2/job/Ciudad-De-Mexico-Distrito-Federal-Mexico/Credit-Analyst-2_26986886"
-  },
-  {
-    "id": "workday:26986766",
-    "company": "Citi",
-    "category": "FINANCE",
-    "title": "Credit Analyst 2",
-    "location": "Ciudad De Mexico Distrito Federal Mexico",
-    "location_group": "Mexico City",
-    "posted_at": "",
-    "department": "",
-    "team": "",
-    "url": "https://citi.wd5.myworkdayjobs.com/2/job/Ciudad-De-Mexico-Distrito-Federal-Mexico/Credit-Analyst-2_26986766"
   },
   {
     "id": "workday:26983640",
