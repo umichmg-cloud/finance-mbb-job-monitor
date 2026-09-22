@@ -243,7 +243,7 @@
     "id": "yello:Deutsche Bank:fXJVEm6zxc3xxKADOzzUEQ",
     "company": "Deutsche Bank",
     "category": "FINANCE",
-    "title": "Deutsche Bank Graduate Programme - Investment Bank: Capital Markets - UK Coverage - London - 2027",
+    "title": "Deutsche Bank Graduate Programme - Investment Bank & Capital Markets - UK Coverage - London - 2027",
     "location": "Hong Kong",
     "location_group": "Hong Kong",
     "posted_at": "",
@@ -339,7 +339,7 @@
     "id": "yello:Deutsche Bank:GVLL1ab3dttHyujCfHgaMQ",
     "company": "Deutsche Bank",
     "category": "FINANCE",
-    "title": "Deutsche Bank March Seasonal 6 Month Internship Programme - Investment Bank: Capital Markets - UK Coverage - London - 2027",
+    "title": "Deutsche Bank March Seasonal 6 Month Internship Programme - Investment Bank & Capital Markets - UK Coverage - London - 2027",
     "location": "Hong Kong",
     "location_group": "Hong Kong",
     "posted_at": "",
@@ -898,6 +898,18 @@
     "department": "Portfolio Management",
     "team": "",
     "url": "https://morganstanley.eightfold.ai/careers/job/549799599756"
+  },
+  {
+    "id": "eightfold:JR044450",
+    "company": "Morgan Stanley",
+    "category": "FINANCE",
+    "title": "Equity Research – Analyst, China Internet (Hong Kong)",
+    "location": "HK",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-09-22 00:00:00",
+    "department": "Research",
+    "team": "",
+    "url": "https://morganstanley.eightfold.ai/careers/job/549800423238"
   },
   {
     "id": "eightfold:JR042741",
