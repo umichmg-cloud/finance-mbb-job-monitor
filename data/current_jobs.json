@@ -576,6 +576,54 @@
     "url": "https://hdpc.fa.us2.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=cx_3001#171431"
   },
   {
+    "id": "eightfold:HSBC:563774612021999",
+    "company": "HSBC",
+    "category": "FINANCE",
+    "title": "Alts Business Transformation, Business Analyst - HSBC Global Asset Management",
+    "location": "Central, Hong Kong Island, Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-07-28 07:16:12",
+    "department": "Asset and Wealth Management",
+    "team": "",
+    "url": "https://portal.careers.hsbc.com/careers/job/563774612021999"
+  },
+  {
+    "id": "eightfold:HSBC:563774609619754",
+    "company": "HSBC",
+    "category": "FINANCE",
+    "title": "Analyst, Corporate Banking - Mainland Corporates - Hang Seng Bank (HK)",
+    "location": "Central, Hong Kong Island, Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-02-12 02:01:30",
+    "department": "HK Business",
+    "team": "",
+    "url": "https://portal.careers.hsbc.com/careers/job/563774609619754"
+  },
+  {
+    "id": "eightfold:HSBC:563774612053238",
+    "company": "HSBC",
+    "category": "FINANCE",
+    "title": "Student Internship Programme 1H2027 - Global Markets - Hang Seng Bank (HK)",
+    "location": "Central, Hong Kong Island, Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-08-04 01:37:48",
+    "department": "Investment Banking, Markets, and Research",
+    "team": "",
+    "url": "https://portal.careers.hsbc.com/careers/job/563774612053238"
+  },
+  {
+    "id": "eightfold:HSBC:563774612092050",
+    "company": "HSBC",
+    "category": "FINANCE",
+    "title": "Student Internship Programme 1H2027 - Hang Seng Indexes Company Limited - Hang Seng Bank (HK)",
+    "location": "Mongkok, Kowloon, Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-08-10 09:27:13",
+    "department": "Asset and Wealth Management",
+    "team": "",
+    "url": "https://portal.careers.hsbc.com/careers/job/563774612092050"
+  },
+  {
     "id": "oracle:210743031",
     "company": "JPMorgan Chase",
     "category": "FINANCE",
@@ -912,6 +960,18 @@
     "url": "https://morganstanley.eightfold.ai/careers/job/549799115150"
   },
   {
+    "id": "brassring:UBS:349902",
+    "company": "UBS",
+    "category": "FINANCE",
+    "title": "2027 Graduate Talent Program - Global Banking - Hong Kong",
+    "location": "Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "15-Sep-2026",
+    "department": "Investment Bank",
+    "team": "",
+    "url": "https://jobs.ubs.com/TGnewUI/Search/home/HomeWithPreLoad?partnerid=25008&siteid=5131&PageType=JobDetails&jobid=349902"
+  },
+  {
     "id": "workday:26992624",
     "company": "Citi",
     "category": "FINANCE",
@@ -934,6 +994,18 @@
     "department": "",
     "team": "",
     "url": "https://citi.wd5.myworkdayjobs.com/2/job/THE-SUMMIT---CIUDAD-DE-MEXICO/Banking---Investment-Banking--Full-Time-Analyst--Mexico-City---Mexico--2027_26992614"
+  },
+  {
+    "id": "workday:26985294",
+    "company": "Citi",
+    "category": "FINANCE",
+    "title": "CITI - Equities Product Control Analyst II",
+    "location": "Ciudad De Mexico Distrito Federal Mexico",
+    "location_group": "Mexico City",
+    "posted_at": "",
+    "department": "",
+    "team": "",
+    "url": "https://citi.wd5.myworkdayjobs.com/2/job/Ciudad-De-Mexico-Distrito-Federal-Mexico/CITI---Equities-Product-Control-Analyst-II_26985294-1"
   },
   {
     "id": "workday:26983640",
