@@ -300,6 +300,54 @@
     "url": "https://hdpc.fa.us2.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=cx_3001#171431"
   },
   {
+    "id": "eightfold:HSBC:563774612021999",
+    "company": "HSBC",
+    "category": "FINANCE",
+    "title": "Alts Business Transformation, Business Analyst - HSBC Global Asset Management",
+    "location": "Central, Hong Kong Island, Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-07-28 07:16:12",
+    "department": "Asset and Wealth Management",
+    "team": "",
+    "url": "https://portal.careers.hsbc.com/careers/job/563774612021999"
+  },
+  {
+    "id": "eightfold:HSBC:563774612411133",
+    "company": "HSBC",
+    "category": "FINANCE",
+    "title": "Relationship Manager Analyst, Hong Kong Team - Private Banking",
+    "location": "Central, Hong Kong Island, Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-10-06 07:33:43",
+    "department": "Intl Wealth & Premier Banking",
+    "team": "",
+    "url": "https://portal.careers.hsbc.com/careers/job/563774612411133"
+  },
+  {
+    "id": "eightfold:HSBC:563774612053238",
+    "company": "HSBC",
+    "category": "FINANCE",
+    "title": "Student Internship Programme 1H2027 - Global Markets - Hang Seng Bank (HK)",
+    "location": "Central, Hong Kong Island, Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-08-04 01:37:48",
+    "department": "Investment Banking, Markets, and Research",
+    "team": "",
+    "url": "https://portal.careers.hsbc.com/careers/job/563774612053238"
+  },
+  {
+    "id": "eightfold:HSBC:563774612092050",
+    "company": "HSBC",
+    "category": "FINANCE",
+    "title": "Student Internship Programme 1H2027 - Hang Seng Indexes Company Limited - Hang Seng Bank (HK)",
+    "location": "Mongkok, Kowloon, Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-08-10 09:27:13",
+    "department": "Asset and Wealth Management",
+    "team": "",
+    "url": "https://portal.careers.hsbc.com/careers/job/563774612092050"
+  },
+  {
     "id": "oracle:210795711",
     "company": "JPMorgan Chase",
     "category": "FINANCE",
@@ -334,18 +382,6 @@
     "department": "",
     "team": "Associates",
     "url": "https://jpmc.fa.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=CX_1001#210784369"
-  },
-  {
-    "id": "oracle:210789242",
-    "company": "JPMorgan Chase",
-    "category": "FINANCE",
-    "title": "Asset Servicing Analyst (6 Months Fixed Term Contract)",
-    "location": "Kwun Tong, Kowloon, Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "2026-09-10 00:00:00",
-    "department": "",
-    "team": "Trading Services",
-    "url": "https://jpmc.fa.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=CX_1001#210789242"
   },
   {
     "id": "oracle:210681120",
@@ -466,18 +502,6 @@
     "department": "Consulting",
     "team": "Generalist",
     "url": "https://www.mckinsey.com/careers/search-jobs/jobs/businessanalystintern-15275"
-  },
-  {
-    "id": "eightfold:JR042233",
-    "company": "Morgan Stanley",
-    "category": "FINANCE",
-    "title": "Asia Wealth Management, Fixed Income Discretionary Portfolio Management, Assistant Portfolio Manager, Analyst, Hong Kong",
-    "location": "HK",
-    "location_group": "Hong Kong",
-    "posted_at": "2026-08-13 00:00:00",
-    "department": "Portfolio Management",
-    "team": "",
-    "url": "https://morganstanley.eightfold.ai/careers/job/549799599756"
   },
   {
     "id": "eightfold:JR044450",
