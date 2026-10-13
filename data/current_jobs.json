@@ -288,6 +288,18 @@
     "url": "https://portal.careers.hsbc.com/careers/job/563774612021999"
   },
   {
+    "id": "eightfold:HSBC:563774609619754",
+    "company": "HSBC",
+    "category": "FINANCE",
+    "title": "Analyst, Corporate Banking - Mainland Corporates - Hang Seng Bank (HK)",
+    "location": "Central, Hong Kong Island, Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-02-12 02:01:30",
+    "department": "HK Business",
+    "team": "",
+    "url": "https://portal.careers.hsbc.com/careers/job/563774609619754"
+  },
+  {
     "id": "eightfold:HSBC:563774612411133",
     "company": "HSBC",
     "category": "FINANCE",
@@ -358,6 +370,18 @@
     "department": "",
     "team": "Associates",
     "url": "https://jpmc.fa.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=CX_1001#210784369"
+  },
+  {
+    "id": "oracle:210798742",
+    "company": "JPMorgan Chase",
+    "category": "FINANCE",
+    "title": "Equity Derivatives Sales Support - Analyst/Associate",
+    "location": "Kwun Tong, Kowloon, Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-10-13 00:00:00",
+    "department": "",
+    "team": "Client Service",
+    "url": "https://jpmc.fa.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=CX_1001#210798742"
   },
   {
     "id": "oracle:210681120",
