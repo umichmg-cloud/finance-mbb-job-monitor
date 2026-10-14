@@ -24,90 +24,6 @@
     "url": "https://barclays.wd3.myworkdayjobs.com/external_career_site_barclays/job/Hong-Kong-Cheung-Kong-Center/Sales--Trading-and-Structuring-Graduate-Programme-2027-Hong-Kong_JR-0000128133"
   },
   {
-    "id": "eightfold:Boston Consulting Group:790316986930",
-    "company": "Boston Consulting Group",
-    "category": "MBB",
-    "title": "Consulting Full-time, GC Campus, Shanghai, Beijing, Shenzhen, Hong Kong, Taipei",
-    "location": "Shanghai, Greater China | Beijing, Greater China | Shenzhen, Greater China | Hong Kong, Greater China | Taipei, Greater China",
-    "location_group": "Hong Kong",
-    "posted_at": "2026-07-08 06:12:00",
-    "department": "BCG",
-    "team": "",
-    "url": "https://studenttalent.bcg.com/careers/job/790316986930"
-  },
-  {
-    "id": "workday:26984751",
-    "company": "Citi",
-    "category": "FINANCE",
-    "title": "Banking - Capital Markets, Summer Analyst, Hong Kong – APAC, 2027",
-    "location": "Hong Kong  Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "",
-    "department": "",
-    "team": "",
-    "url": "https://citi.wd5.myworkdayjobs.com/2/job/Hong-Kong--Hong-Kong/Banking---Capital-Markets--Summer-Analyst--Hong-Kong---APAC--2027_26984751"
-  },
-  {
-    "id": "workday:26984793",
-    "company": "Citi",
-    "category": "FINANCE",
-    "title": "Banking - Corporate Banking, Summer Analyst, Hong Kong – APAC, 2027",
-    "location": "Hong Kong  Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "",
-    "department": "",
-    "team": "",
-    "url": "https://citi.wd5.myworkdayjobs.com/2/job/Hong-Kong--Hong-Kong/Banking---Corporate-Banking--Summer-Analyst--Hong-Kong---APAC--2027_26984793"
-  },
-  {
-    "id": "workday:26984799",
-    "company": "Citi",
-    "category": "FINANCE",
-    "title": "Banking - Investment Banking, Summer Analyst, Hong Kong – APAC, 2027",
-    "location": "Hong Kong  Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "",
-    "department": "",
-    "team": "",
-    "url": "https://citi.wd5.myworkdayjobs.com/2/job/Hong-Kong--Hong-Kong/Banking---Investment-Banking--Summer-Analyst--Hong-Kong---APAC--2027_26984799"
-  },
-  {
-    "id": "workday:25874093",
-    "company": "Citi",
-    "category": "FINANCE",
-    "title": "Officer, Credit Analyst",
-    "location": "Kowloon  Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "",
-    "department": "",
-    "team": "",
-    "url": "https://citi.wd5.myworkdayjobs.com/2/job/Kowloon--Hong-Kong/Officer--Credit-Analyst_25874093"
-  },
-  {
-    "id": "workday:25868186",
-    "company": "Citi",
-    "category": "FINANCE",
-    "title": "Officer, Credit Analyst",
-    "location": "Kowloon  Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "",
-    "department": "",
-    "team": "",
-    "url": "https://citi.wd5.myworkdayjobs.com/2/job/Kowloon--Hong-Kong/Officer--Credit-Analyst_25868186"
-  },
-  {
-    "id": "workday:26988478",
-    "company": "Citi",
-    "category": "FINANCE",
-    "title": "Wealth - Private Bank, Summer Analyst, Hong Kong, 2027",
-    "location": "Hong Kong  Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "",
-    "department": "",
-    "team": "",
-    "url": "https://citi.wd5.myworkdayjobs.com/2/job/Hong-Kong--Hong-Kong/Wealth---Private-Bank--Summer-Analyst--Hong-Kong--2027_26988478"
-  },
-  {
     "id": "yello:Deutsche Bank:ATKMsKNILE0Hw9jGuHzLiw",
     "company": "Deutsche Bank",
     "category": "FINANCE",
@@ -192,6 +108,18 @@
     "url": "https://db.recsolu.com/jobs/eBnaSDcNE78P4gp5YT_4xA?job_board_id=DT5zqeU-qZM-ltrVsIvR9Q"
   },
   {
+    "id": "yello:Deutsche Bank:C3jQgPmZcFYJCYYBWYDl1w",
+    "company": "Deutsche Bank",
+    "category": "FINANCE",
+    "title": "Deutsche Bank Internship Programme - Investment Bank – Debt Capital Market FIG & SSA - Paris - January 2027",
+    "location": "Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "",
+    "department": "",
+    "team": "",
+    "url": "https://db.recsolu.com/jobs/C3jQgPmZcFYJCYYBWYDl1w?job_board_id=DT5zqeU-qZM-ltrVsIvR9Q"
+  },
+  {
     "id": "yello:Deutsche Bank:s5mCo7DbXpnDspInL-8DrQ",
     "company": "Deutsche Bank",
     "category": "FINANCE",
@@ -216,30 +144,6 @@
     "url": "https://hdpc.fa.us2.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=cx_3001#183898"
   },
   {
-    "id": "oracle:171427",
-    "company": "Goldman Sachs",
-    "category": "FINANCE",
-    "title": "2027 | APEJ | Hong Kong | Asset Management, Alternatives / Private Investing | Summer Analyst",
-    "location": "Hong Kong, Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "2025-07-01 00:00:00",
-    "department": "",
-    "team": "",
-    "url": "https://hdpc.fa.us2.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=cx_3001#171427"
-  },
-  {
-    "id": "oracle:171415",
-    "company": "Goldman Sachs",
-    "category": "FINANCE",
-    "title": "2027 | APEJ | Hong Kong | Asset Management, Client Solutions | Summer Analyst",
-    "location": "Hong Kong, Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "2025-07-01 00:00:00",
-    "department": "",
-    "team": "",
-    "url": "https://hdpc.fa.us2.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=cx_3001#171415"
-  },
-  {
     "id": "oracle:179947",
     "company": "Goldman Sachs",
     "category": "FINANCE",
@@ -262,66 +166,6 @@
     "department": "",
     "team": "",
     "url": "https://hdpc.fa.us2.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=cx_3001#180086"
-  },
-  {
-    "id": "eightfold:HSBC:563774612021999",
-    "company": "HSBC",
-    "category": "FINANCE",
-    "title": "Alts Business Transformation, Business Analyst - HSBC Global Asset Management",
-    "location": "Central, Hong Kong Island, Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "2026-07-28 07:16:12",
-    "department": "Asset and Wealth Management",
-    "team": "",
-    "url": "https://portal.careers.hsbc.com/careers/job/563774612021999"
-  },
-  {
-    "id": "eightfold:HSBC:563774609619754",
-    "company": "HSBC",
-    "category": "FINANCE",
-    "title": "Analyst, Corporate Banking - Mainland Corporates - Hang Seng Bank (HK)",
-    "location": "Central, Hong Kong Island, Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "2026-02-12 02:01:30",
-    "department": "HK Business",
-    "team": "",
-    "url": "https://portal.careers.hsbc.com/careers/job/563774609619754"
-  },
-  {
-    "id": "eightfold:HSBC:563774612411133",
-    "company": "HSBC",
-    "category": "FINANCE",
-    "title": "Relationship Manager Analyst, Hong Kong Team - Private Banking",
-    "location": "Central, Hong Kong Island, Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "2026-10-06 07:33:43",
-    "department": "Intl Wealth & Premier Banking",
-    "team": "",
-    "url": "https://portal.careers.hsbc.com/careers/job/563774612411133"
-  },
-  {
-    "id": "eightfold:HSBC:563774612053238",
-    "company": "HSBC",
-    "category": "FINANCE",
-    "title": "Student Internship Programme 1H2027 - Global Markets - Hang Seng Bank (HK)",
-    "location": "Central, Hong Kong Island, Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "2026-08-04 01:37:48",
-    "department": "Investment Banking, Markets, and Research",
-    "team": "",
-    "url": "https://portal.careers.hsbc.com/careers/job/563774612053238"
-  },
-  {
-    "id": "eightfold:HSBC:563774612092050",
-    "company": "HSBC",
-    "category": "FINANCE",
-    "title": "Student Internship Programme 1H2027 - Hang Seng Indexes Company Limited - Hang Seng Bank (HK)",
-    "location": "Mongkok, Kowloon, Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "2026-08-10 09:27:13",
-    "department": "Asset and Wealth Management",
-    "team": "",
-    "url": "https://portal.careers.hsbc.com/careers/job/563774612092050"
   },
   {
     "id": "oracle:210795711",
@@ -562,42 +406,6 @@
     "department": "",
     "team": "",
     "url": "https://barclays.wd3.myworkdayjobs.com/external_career_site_barclays/job/Mexico-City-Avenida-Paseo-de-la-Reforma-505/Trading-Analyst-Summer-Internship-Program-2027-Mexico-City_JR-0000134430"
-  },
-  {
-    "id": "workday:26992624",
-    "company": "Citi",
-    "category": "FINANCE",
-    "title": "Banking – Corporate Banking, Full-Time Analyst, Mexico City – Mexico, 2027",
-    "location": "THE SUMMIT - CIUDAD DE MEXICO",
-    "location_group": "Mexico City",
-    "posted_at": "",
-    "department": "",
-    "team": "",
-    "url": "https://citi.wd5.myworkdayjobs.com/2/job/THE-SUMMIT---CIUDAD-DE-MEXICO/Banking---Corporate-Baking--Full-Time-Analyst--Mexico-City---Mexico--2027_26992624-1"
-  },
-  {
-    "id": "workday:26992614",
-    "company": "Citi",
-    "category": "FINANCE",
-    "title": "Banking – Investment Banking, Full-Time Analyst, Mexico City - Mexico, 2027",
-    "location": "THE SUMMIT - CIUDAD DE MEXICO",
-    "location_group": "Mexico City",
-    "posted_at": "",
-    "department": "",
-    "team": "",
-    "url": "https://citi.wd5.myworkdayjobs.com/2/job/THE-SUMMIT---CIUDAD-DE-MEXICO/Banking---Investment-Banking--Full-Time-Analyst--Mexico-City---Mexico--2027_26992614"
-  },
-  {
-    "id": "workday:26983640",
-    "company": "Citi",
-    "category": "FINANCE",
-    "title": "Markets – Sales and Trading, Internship, Mexico City, Mexico 2027",
-    "location": "THE SUMMIT - CIUDAD DE MEXICO",
-    "location_group": "Mexico City",
-    "posted_at": "",
-    "department": "",
-    "team": "",
-    "url": "https://citi.wd5.myworkdayjobs.com/2/job/THE-SUMMIT---CIUDAD-DE-MEXICO/Markets---Sales-and-Trading--Internship--Mexico-City--Mexico-2027_26983640"
   },
   {
     "id": "oracle:151755",
