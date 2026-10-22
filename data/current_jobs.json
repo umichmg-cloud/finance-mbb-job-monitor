@@ -24,6 +24,90 @@
     "url": "https://barclays.wd3.myworkdayjobs.com/external_career_site_barclays/job/Hong-Kong-Cheung-Kong-Center/Sales--Trading-and-Structuring-Graduate-Programme-2027-Hong-Kong_JR-0000128133"
   },
   {
+    "id": "eightfold:Boston Consulting Group:790316986930",
+    "company": "Boston Consulting Group",
+    "category": "MBB",
+    "title": "Consulting Full-time, GC Campus, Shanghai, Beijing, Shenzhen, Hong Kong, Taipei",
+    "location": "Shanghai, Greater China | Beijing, Greater China | Shenzhen, Greater China | Hong Kong, Greater China | Taipei, Greater China",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-07-08 06:12:00",
+    "department": "BCG",
+    "team": "",
+    "url": "https://studenttalent.bcg.com/careers/job/790316986930"
+  },
+  {
+    "id": "workday:26984751",
+    "company": "Citi",
+    "category": "FINANCE",
+    "title": "Banking - Capital Markets, Summer Analyst, Hong Kong – APAC, 2027",
+    "location": "Hong Kong  Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "",
+    "department": "",
+    "team": "",
+    "url": "https://citi.wd5.myworkdayjobs.com/2/job/Hong-Kong--Hong-Kong/Banking---Capital-Markets--Summer-Analyst--Hong-Kong---APAC--2027_26984751"
+  },
+  {
+    "id": "workday:26984793",
+    "company": "Citi",
+    "category": "FINANCE",
+    "title": "Banking - Corporate Banking, Summer Analyst, Hong Kong – APAC, 2027",
+    "location": "Hong Kong  Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "",
+    "department": "",
+    "team": "",
+    "url": "https://citi.wd5.myworkdayjobs.com/2/job/Hong-Kong--Hong-Kong/Banking---Corporate-Banking--Summer-Analyst--Hong-Kong---APAC--2027_26984793"
+  },
+  {
+    "id": "workday:26984799",
+    "company": "Citi",
+    "category": "FINANCE",
+    "title": "Banking - Investment Banking, Summer Analyst, Hong Kong – APAC, 2027",
+    "location": "Hong Kong  Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "",
+    "department": "",
+    "team": "",
+    "url": "https://citi.wd5.myworkdayjobs.com/2/job/Hong-Kong--Hong-Kong/Banking---Investment-Banking--Summer-Analyst--Hong-Kong---APAC--2027_26984799"
+  },
+  {
+    "id": "workday:25874093",
+    "company": "Citi",
+    "category": "FINANCE",
+    "title": "Officer, Credit Analyst",
+    "location": "Kowloon  Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "",
+    "department": "",
+    "team": "",
+    "url": "https://citi.wd5.myworkdayjobs.com/2/job/Kowloon--Hong-Kong/Officer--Credit-Analyst_25874093"
+  },
+  {
+    "id": "workday:25868186",
+    "company": "Citi",
+    "category": "FINANCE",
+    "title": "Officer, Credit Analyst",
+    "location": "Kowloon  Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "",
+    "department": "",
+    "team": "",
+    "url": "https://citi.wd5.myworkdayjobs.com/2/job/Kowloon--Hong-Kong/Officer--Credit-Analyst_25868186"
+  },
+  {
+    "id": "workday:26988478",
+    "company": "Citi",
+    "category": "FINANCE",
+    "title": "Wealth - Private Bank, Summer Analyst, Hong Kong, 2027",
+    "location": "Hong Kong  Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "",
+    "department": "",
+    "team": "",
+    "url": "https://citi.wd5.myworkdayjobs.com/2/job/Hong-Kong--Hong-Kong/Wealth---Private-Bank--Summer-Analyst--Hong-Kong--2027_26988478"
+  },
+  {
     "id": "yello:Deutsche Bank:ATKMsKNILE0Hw9jGuHzLiw",
     "company": "Deutsche Bank",
     "category": "FINANCE",
@@ -384,6 +468,18 @@
     "url": "https://morganstanley.eightfold.ai/careers/job/549800531335"
   },
   {
+    "id": "talnet:Rothschild & Co:1024",
+    "company": "Rothschild & Co",
+    "category": "FINANCE",
+    "title": "2027 Global Advisory Summer Internship Programme - Hong Kong",
+    "location": "Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "",
+    "department": "",
+    "team": "",
+    "url": "https://rothschildandco.tal.net/vx/lang-en-GB/mobile-0/appcentre-1/brand-4/xf-a81ab93872fa/candidate/so/pm/1/pl/2/opp/1024-2027-Global-Advisory-Summer-Internship-Programme-Hong-Kong/en-GB"
+  },
+  {
     "id": "workday:JR-0000134430",
     "company": "Barclays",
     "category": "FINANCE",
@@ -394,6 +490,30 @@
     "department": "",
     "team": "",
     "url": "https://barclays.wd3.myworkdayjobs.com/external_career_site_barclays/job/Mexico-City-Avenida-Paseo-de-la-Reforma-505/Trading-Analyst-Summer-Internship-Program-2027-Mexico-City_JR-0000134430"
+  },
+  {
+    "id": "workday:26992624",
+    "company": "Citi",
+    "category": "FINANCE",
+    "title": "Banking – Corporate Banking, Full-Time Analyst, Mexico City – Mexico, 2027",
+    "location": "THE SUMMIT - CIUDAD DE MEXICO",
+    "location_group": "Mexico City",
+    "posted_at": "",
+    "department": "",
+    "team": "",
+    "url": "https://citi.wd5.myworkdayjobs.com/2/job/THE-SUMMIT---CIUDAD-DE-MEXICO/Banking---Corporate-Baking--Full-Time-Analyst--Mexico-City---Mexico--2027_26992624-1"
+  },
+  {
+    "id": "workday:26992614",
+    "company": "Citi",
+    "category": "FINANCE",
+    "title": "Banking – Investment Banking, Full-Time Analyst, Mexico City - Mexico, 2027",
+    "location": "THE SUMMIT - CIUDAD DE MEXICO",
+    "location_group": "Mexico City",
+    "posted_at": "",
+    "department": "",
+    "team": "",
+    "url": "https://citi.wd5.myworkdayjobs.com/2/job/THE-SUMMIT---CIUDAD-DE-MEXICO/Banking---Investment-Banking--Full-Time-Analyst--Mexico-City---Mexico--2027_26992614"
   },
   {
     "id": "oracle:151755",
