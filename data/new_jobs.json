@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "id": "yello:Deutsche Bank:WQ55rW9XfufTj1AF-IiiPw",
+    "company": "Deutsche Bank",
+    "category": "FINANCE",
+    "title": "Deutsche Bank Internship (f/m/x) in Investment Bank: Global Markets (Sales/ Trading/ Structuring/ Financing) 2027",
+    "location": "Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "",
+    "department": "",
+    "team": "",
+    "url": "https://db.recsolu.com/jobs/WQ55rW9XfufTj1AF-IiiPw?job_board_id=DT5zqeU-qZM-ltrVsIvR9Q"
+  },
+  {
+    "id": "oracle:210803276",
+    "company": "JPMorgan Chase",
+    "category": "FINANCE",
+    "title": "Asset Servicing Analyst (6 Months Fixed Term Contract)",
+    "location": "Kwun Tong, Kowloon, Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-10-26 00:00:00",
+    "department": "",
+    "team": "Trading Services",
+    "url": "https://jpmc.fa.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=CX_1001#210803276"
+  }
+]

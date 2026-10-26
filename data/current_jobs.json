@@ -108,42 +108,6 @@
     "url": "https://citi.wd5.myworkdayjobs.com/2/job/Hong-Kong--Hong-Kong/Wealth---Private-Bank--Summer-Analyst--Hong-Kong--2027_26988478"
   },
   {
-    "id": "yello:Deutsche Bank:ATKMsKNILE0Hw9jGuHzLiw",
-    "company": "Deutsche Bank",
-    "category": "FINANCE",
-    "title": "2027 Deutsche Bank Graduate Programme - Investment Bank: Fixed Income & Currencies - Hong Kong",
-    "location": "Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "",
-    "department": "",
-    "team": "",
-    "url": "https://db.recsolu.com/jobs/ATKMsKNILE0Hw9jGuHzLiw?job_board_id=DT5zqeU-qZM-ltrVsIvR9Q"
-  },
-  {
-    "id": "yello:Deutsche Bank:ORnHEncDP0oD6jYS1mUE4w",
-    "company": "Deutsche Bank",
-    "category": "FINANCE",
-    "title": "2027 Deutsche Bank Graduate Programme - Investment Bank: Fixed Income & Currencies - Singapore",
-    "location": "Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "",
-    "department": "",
-    "team": "",
-    "url": "https://db.recsolu.com/jobs/ORnHEncDP0oD6jYS1mUE4w?job_board_id=DT5zqeU-qZM-ltrVsIvR9Q"
-  },
-  {
-    "id": "yello:Deutsche Bank:-v24xfQywLbIec_uKiGiMw",
-    "company": "Deutsche Bank",
-    "category": "FINANCE",
-    "title": "2027 Deutsche Bank Off-Cycle Internship Programme - Investment Banking & Capital Markets - Singapore",
-    "location": "Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "",
-    "department": "",
-    "team": "",
-    "url": "https://db.recsolu.com/jobs/-v24xfQywLbIec_uKiGiMw?job_board_id=DT5zqeU-qZM-ltrVsIvR9Q"
-  },
-  {
     "id": "yello:Deutsche Bank:nLDH8-CMVpw7JglCW7W8cw",
     "company": "Deutsche Bank",
     "category": "FINANCE",
@@ -166,6 +130,18 @@
     "department": "",
     "team": "",
     "url": "https://db.recsolu.com/jobs/hKDibOSlEAAh_g4TGcioJw?job_board_id=DT5zqeU-qZM-ltrVsIvR9Q"
+  },
+  {
+    "id": "yello:Deutsche Bank:WQ55rW9XfufTj1AF-IiiPw",
+    "company": "Deutsche Bank",
+    "category": "FINANCE",
+    "title": "Deutsche Bank Internship (f/m/x) in Investment Bank: Global Markets (Sales/ Trading/ Structuring/ Financing) 2027",
+    "location": "Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "",
+    "department": "",
+    "team": "",
+    "url": "https://db.recsolu.com/jobs/WQ55rW9XfufTj1AF-IiiPw?job_board_id=DT5zqeU-qZM-ltrVsIvR9Q"
   },
   {
     "id": "yello:Deutsche Bank:KjA5VnH2SAzsZbIs-ZFeMg",
@@ -240,42 +216,6 @@
     "url": "https://hdpc.fa.us2.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=cx_3001#180086"
   },
   {
-    "id": "eightfold:HSBC:563774612021999",
-    "company": "HSBC",
-    "category": "FINANCE",
-    "title": "Alts Business Transformation, Business Analyst - HSBC Global Asset Management",
-    "location": "Central, Hong Kong Island, Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "2026-07-28 07:16:12",
-    "department": "Asset and Wealth Management",
-    "team": "",
-    "url": "https://portal.careers.hsbc.com/careers/job/563774612021999"
-  },
-  {
-    "id": "eightfold:HSBC:563774609619754",
-    "company": "HSBC",
-    "category": "FINANCE",
-    "title": "Analyst, Corporate Banking - Mainland Corporates - Hang Seng Bank (HK)",
-    "location": "Central, Hong Kong Island, Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "2026-02-12 02:01:30",
-    "department": "HK Business",
-    "team": "",
-    "url": "https://portal.careers.hsbc.com/careers/job/563774609619754"
-  },
-  {
-    "id": "eightfold:HSBC:563774612411133",
-    "company": "HSBC",
-    "category": "FINANCE",
-    "title": "Relationship Manager Analyst, Hong Kong Team - Private Banking",
-    "location": "Central, Hong Kong Island, Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "2026-10-06 07:33:43",
-    "department": "Intl Wealth & Premier Banking",
-    "team": "",
-    "url": "https://portal.careers.hsbc.com/careers/job/563774612411133"
-  },
-  {
     "id": "oracle:210795711",
     "company": "JPMorgan Chase",
     "category": "FINANCE",
@@ -310,6 +250,18 @@
     "department": "",
     "team": "Associates",
     "url": "https://jpmc.fa.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=CX_1001#210784369"
+  },
+  {
+    "id": "oracle:210803276",
+    "company": "JPMorgan Chase",
+    "category": "FINANCE",
+    "title": "Asset Servicing Analyst (6 Months Fixed Term Contract)",
+    "location": "Kwun Tong, Kowloon, Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-10-26 00:00:00",
+    "department": "",
+    "team": "Trading Services",
+    "url": "https://jpmc.fa.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=CX_1001#210803276"
   },
   {
     "id": "oracle:210799986",
