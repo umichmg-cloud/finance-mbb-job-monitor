@@ -204,6 +204,30 @@
     "url": "https://hdpc.fa.us2.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=cx_3001#180086"
   },
   {
+    "id": "eightfold:HSBC:563774609619754",
+    "company": "HSBC",
+    "category": "FINANCE",
+    "title": "Analyst, Corporate Banking - Mainland Corporates - Hang Seng Bank (HK)",
+    "location": "Central, Hong Kong Island, Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-02-12 02:01:30",
+    "department": "HK Business",
+    "team": "",
+    "url": "https://portal.careers.hsbc.com/careers/job/563774609619754"
+  },
+  {
+    "id": "eightfold:HSBC:563774612411133",
+    "company": "HSBC",
+    "category": "FINANCE",
+    "title": "Relationship Manager Analyst, Hong Kong Team - Private Banking",
+    "location": "Central, Hong Kong Island, Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-10-06 07:33:43",
+    "department": "Intl Wealth & Premier Banking",
+    "team": "",
+    "url": "https://portal.careers.hsbc.com/careers/job/563774612411133"
+  },
+  {
     "id": "oracle:210795711",
     "company": "JPMorgan Chase",
     "category": "FINANCE",
@@ -358,18 +382,6 @@
     "department": "",
     "team": "Client Advisory",
     "url": "https://jpmc.fa.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=CX_1001#210689990"
-  },
-  {
-    "id": "oracle:210765962",
-    "company": "JPMorgan Chase",
-    "category": "FINANCE",
-    "title": "Investment Risk - Analyst",
-    "location": "Hong Kong",
-    "location_group": "Hong Kong",
-    "posted_at": "2026-07-03 00:00:00",
-    "department": "",
-    "team": "Market Risk",
-    "url": "https://jpmc.fa.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=CX_1001#210765962"
   },
   {
     "id": "mckinsey:15136",
