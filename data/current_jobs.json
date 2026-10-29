@@ -24,6 +24,18 @@
     "url": "https://barclays.wd3.myworkdayjobs.com/external_career_site_barclays/job/Hong-Kong-Cheung-Kong-Center/Sales--Trading-and-Structuring-Graduate-Programme-2027-Hong-Kong_JR-0000128133"
   },
   {
+    "id": "eightfold:Boston Consulting Group:790316986930",
+    "company": "Boston Consulting Group",
+    "category": "MBB",
+    "title": "Consulting Full-time, GC Campus, Shanghai, Beijing, Shenzhen, Hong Kong, Taipei",
+    "location": "Shanghai, Greater China | Beijing, Greater China | Shenzhen, Greater China | Hong Kong, Greater China | Taipei, Greater China",
+    "location_group": "Hong Kong",
+    "posted_at": "2026-07-08 06:12:00",
+    "department": "BCG",
+    "team": "",
+    "url": "https://studenttalent.bcg.com/careers/job/790316986930"
+  },
+  {
     "id": "workday:26984751",
     "company": "Citi",
     "category": "FINANCE",
@@ -94,6 +106,18 @@
     "department": "",
     "team": "",
     "url": "https://citi.wd5.myworkdayjobs.com/2/job/Hong-Kong--Hong-Kong/Wealth---Private-Bank--Summer-Analyst--Hong-Kong--2027_26988478"
+  },
+  {
+    "id": "yello:Deutsche Bank:mjqVsOzwdFpg5nEEpqTpcw",
+    "company": "Deutsche Bank",
+    "category": "FINANCE",
+    "title": "2027 Deutsche Bank Summer Internship Programme - Investment Banking & Capital Markets - Korea",
+    "location": "Hong Kong",
+    "location_group": "Hong Kong",
+    "posted_at": "",
+    "department": "",
+    "team": "",
+    "url": "https://db.recsolu.com/jobs/mjqVsOzwdFpg5nEEpqTpcw?job_board_id=DT5zqeU-qZM-ltrVsIvR9Q"
   },
   {
     "id": "yello:Deutsche Bank:hKDibOSlEAAh_g4TGcioJw",
@@ -442,5 +466,17 @@
     "department": "",
     "team": "Analysts",
     "url": "https://jpmc.fa.oraclecloud.com/?keyword=&mode=jobs&lang=en&site_number=CX_1001#210793983"
+  },
+  {
+    "id": "workday:Req1628438",
+    "company": "Santander",
+    "category": "FINANCE",
+    "title": "M&A ANALYST - SCIB",
+    "location": "CDMX",
+    "location_group": "Mexico City",
+    "posted_at": "",
+    "department": "",
+    "team": "",
+    "url": "https://santander.wd3.myworkdayjobs.com/santandercareers/job/CDMX/M-A-ANALYST---SCIB_Req1628438"
   }
 ]
